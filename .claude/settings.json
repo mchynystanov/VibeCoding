@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Read",
+      "Grep",
+      "Glob",
+      "Bash(git status)",
+      "Bash(git diff)",
+      "Bash(git log)",
+      "Bash(npm install)",
+      "Bash(npm run *)",
+      "Bash(npm test)"
+    ]
+  }
+}
