@@ -10,6 +10,30 @@
       "Bash(npm install)",
       "Bash(npm run *)",
       "Bash(npm test)"
+    ],
+    "deny": [
+      "Read(.env)",
+      "Read(.env.*)",
+      "Read(**/*.pem)",
+      "Read(**/*.key)",
+      "Read(**/secrets/**)",
+      "Bash(cat .env)",
+      "Bash(cat .env.*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "statusMessage": "Форматирование (ESLint + Prettier)",
+            "command": "try { $json = [Console]::In.ReadToEnd() | ConvertFrom-Json; $f = $json.tool_input.file_path; if (-not $f) { $f = $json.tool_response.filePath }; if ($f -and (Test-Path $f)) { $ext = [System.IO.Path]::GetExtension($f); $nodeExe = 'C:\\Program Files\\nodejs\\node.exe'; $root = (Get-Location).Path; $eslintBin = Join-Path $root 'node_modules\\eslint\\bin\\eslint.js'; $prettierBin = Join-Path $root 'node_modules\\prettier\\bin\\prettier.cjs'; if ($ext -in '.ts','.tsx','.js','.jsx') { if (Test-Path $eslintBin) { & $nodeExe $eslintBin --fix $f 2>$null } }; if ($ext -in '.ts','.tsx','.js','.jsx','.json','.md','.css','.html','.yml','.yaml') { if (Test-Path $prettierBin) { & $nodeExe $prettierBin --write $f 2>$null } } } } catch {}"
+          }
+        ]
+      }
     ]
   }
 }

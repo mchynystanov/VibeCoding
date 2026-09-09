@@ -1,0 +1,5 @@
+creation_rules:
+  - path_regex: \.env$
+    age: age13mvdfsh6anhzlt2a7vcc8038u04nqwkggc5k83wp8un6hysxspfqjvtem3
+  - path_regex: \.env\..*$
+    age: age13mvdfsh6anhzlt2a7vcc8038u04nqwkggc5k83wp8un6hysxspfqjvtem3
