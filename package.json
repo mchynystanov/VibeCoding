@@ -5,9 +5,9 @@
   "description": "Paomma — лендинг с корзиной и автоматическим приёмом заказов",
   "type": "module",
   "scripts": {
-    "dev": "next dev",
+    "dev": "node scripts/with-secrets.mjs next dev",
     "build": "next build",
-    "start": "next start",
+    "start": "node scripts/with-secrets.mjs next start",
     "typecheck": "tsc --noEmit",
     "lint": "eslint .",
     "format": "prettier --write .",
