@@ -10,7 +10,7 @@ export function ProductCard({ product }: { product: Product }) {
   return (
     <div className="flex flex-col gap-3 rounded-2xl bg-white p-4 shadow-sm">
       {product.badge && (
-        <span className="w-fit rounded-full bg-paomma-primary px-3 py-1 text-xs font-semibold text-white">
+        <span className="w-fit rounded-full bg-paomma-primaryDark px-3 py-1 text-xs font-semibold text-white">
           {product.badge}
         </span>
       )}
@@ -20,7 +20,7 @@ export function ProductCard({ product }: { product: Product }) {
       <p className="text-lg font-bold">{product.price.toLocaleString("ru-RU")} ₽</p>
       <button
         onClick={() => addItem(product.id)}
-        className="mt-auto rounded-full bg-paomma-primary py-2 font-semibold text-white transition hover:bg-paomma-primaryDark"
+        className="mt-auto rounded-full bg-paomma-primaryDark py-2 font-semibold text-white transition hover:bg-paomma-primaryDarker"
       >
         В корзину
       </button>

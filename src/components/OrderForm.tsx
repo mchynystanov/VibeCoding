@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { orderSchema, CITY_PRESETS } from "@/lib/schemas";
 import type { OrderInput } from "@/lib/schemas";
 import { useCartStore, useCartTotals } from "@/lib/cart-store";
+import { trackEvent } from "@/lib/analytics";
 
 type SubmitState = "form" | "submitting" | "success" | "error";
 type CityMode = (typeof CITY_PRESETS)[number] | "other";
@@ -89,6 +90,7 @@ export function OrderForm() {
 
       setOrderId(json.orderId ?? null);
       setSubmitState("success");
+      trackEvent("order_submitted", { orderId: json.orderId, total: totals.total });
       clearCart();
     } catch {
       setSubmitState("error");
@@ -114,7 +116,7 @@ export function OrderForm() {
             </p>
             <button
               onClick={handleClose}
-              className="mt-4 rounded-full bg-paomma-primary px-6 py-2 font-semibold text-white"
+              className="mt-4 rounded-full bg-paomma-primaryDark px-6 py-2 font-semibold text-white transition hover:bg-paomma-primaryDarker"
             >
               Закрыть
             </button>
@@ -133,7 +135,7 @@ export function OrderForm() {
                   href={`https://wa.me/${WHATSAPP_FALLBACK}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-green-600 py-2 text-sm font-semibold text-white"
+                  className="rounded-full bg-green-700 py-2 text-sm font-semibold text-white"
                 >
                   Написать в WhatsApp
                 </a>
@@ -143,7 +145,7 @@ export function OrderForm() {
                   href={`https://t.me/${TELEGRAM_FALLBACK.replace("@", "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-blue-500 py-2 text-sm font-semibold text-white"
+                  className="rounded-full bg-blue-600 py-2 text-sm font-semibold text-white"
                 >
                   Написать в Telegram
                 </a>
@@ -158,8 +160,11 @@ export function OrderForm() {
         {(submitState === "form" || submitState === "submitting") && (
           <form onSubmit={submit} className="flex flex-col gap-4">
             <div>
-              <label className="mb-1 block text-sm font-medium">Имя</label>
+              <label htmlFor="order-name" className="mb-1 block text-sm font-medium">
+                Имя
+              </label>
               <input
+                id="order-name"
                 {...register("customer.name")}
                 className="w-full rounded-lg border p-2 text-sm"
                 placeholder="Как к вам обращаться"
@@ -170,8 +175,11 @@ export function OrderForm() {
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium">Телефон</label>
+              <label htmlFor="order-phone" className="mb-1 block text-sm font-medium">
+                Телефон
+              </label>
               <input
+                id="order-phone"
                 {...register("customer.phone")}
                 className="w-full rounded-lg border p-2 text-sm"
                 placeholder="+996 700 123 456"
@@ -182,8 +190,11 @@ export function OrderForm() {
             </div>
 
             <div>
-              <label className="mb-1 block text-sm font-medium">Город</label>
+              <label htmlFor="order-city" className="mb-1 block text-sm font-medium">
+                Город
+              </label>
               <select
+                id="order-city"
                 value={cityMode}
                 onChange={(e) => handleCityModeChange(e.target.value as CityMode)}
                 className="w-full rounded-lg border p-2 text-sm"
@@ -198,6 +209,7 @@ export function OrderForm() {
               {cityMode === "other" && (
                 <input
                   {...register("customer.city")}
+                  aria-label="Укажите ваш город"
                   className="mt-2 w-full rounded-lg border p-2 text-sm"
                   placeholder="Укажите ваш город"
                 />
@@ -223,8 +235,11 @@ export function OrderForm() {
 
             {deliveryMethod === "delivery" && (
               <div>
-                <label className="mb-1 block text-sm font-medium">Адрес</label>
+                <label htmlFor="order-address" className="mb-1 block text-sm font-medium">
+                  Адрес
+                </label>
                 <input
+                  id="order-address"
                   {...register("customer.address")}
                   className="w-full rounded-lg border p-2 text-sm"
                   placeholder="Улица, дом, квартира"
@@ -236,8 +251,11 @@ export function OrderForm() {
             )}
 
             <div>
-              <label className="mb-1 block text-sm font-medium">Комментарий (необязательно)</label>
+              <label htmlFor="order-comment" className="mb-1 block text-sm font-medium">
+                Комментарий (необязательно)
+              </label>
               <textarea
+                id="order-comment"
                 {...register("comment")}
                 className="w-full rounded-lg border p-2 text-sm"
                 rows={2}
@@ -263,7 +281,7 @@ export function OrderForm() {
             <button
               type="submit"
               disabled={submitState === "submitting"}
-              className="rounded-full bg-paomma-primary py-3 font-semibold text-white disabled:opacity-60"
+              className="rounded-full bg-paomma-primaryDark py-3 font-semibold text-white transition hover:bg-paomma-primaryDarker disabled:opacity-60"
             >
               {submitState === "submitting" ? "Отправляем..." : "Оформить заказ"}
             </button>

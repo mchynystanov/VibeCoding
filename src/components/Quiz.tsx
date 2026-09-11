@@ -5,6 +5,7 @@ import { QUIZ_QUESTIONS, getQuizRecommendation } from "@/lib/quiz";
 import type { QuizAnswers } from "@/lib/quiz";
 import { getProductById } from "@/data/products";
 import { useCartStore } from "@/lib/cart-store";
+import { trackEvent } from "@/lib/analytics";
 
 const STEPS: (keyof QuizAnswers)[] = ["need", "frequency", "handsFree"];
 
@@ -17,7 +18,14 @@ export function Quiz() {
   const isDone = currentStepIndex === -1;
 
   function selectAnswer(key: keyof QuizAnswers, value: string) {
-    setAnswers((prev) => ({ ...prev, [key]: value }));
+    const nextAnswers = { ...answers, [key]: value };
+    setAnswers(nextAnswers);
+
+    const isLastStep = STEPS.every((step) => nextAnswers[step] !== undefined);
+    if (isLastStep) {
+      const productId = getQuizRecommendation(nextAnswers as QuizAnswers);
+      trackEvent("quiz_completed", { productId });
+    }
   }
 
   function reset() {
@@ -41,7 +49,7 @@ export function Quiz() {
                 addItem(product.id);
                 openOrderForm();
               }}
-              className="mt-4 w-full rounded-full bg-paomma-primary py-3 font-semibold text-white transition hover:bg-paomma-primaryDark"
+              className="mt-4 w-full rounded-full bg-paomma-primaryDark py-3 font-semibold text-white transition hover:bg-paomma-primaryDarker"
             >
               Заказать
             </button>

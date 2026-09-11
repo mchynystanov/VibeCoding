@@ -25,7 +25,7 @@ export function Hero() {
       </ul>
       <a
         href="#products"
-        className="mt-8 inline-block rounded-full bg-paomma-primary px-8 py-3 font-semibold text-white transition hover:bg-paomma-primaryDark"
+        className="mt-8 inline-block rounded-full bg-paomma-primaryDark px-8 py-3 font-semibold text-white transition hover:bg-paomma-primaryDarker"
       >
         Выбрать товар
       </a>

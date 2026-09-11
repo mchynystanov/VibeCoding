@@ -17,7 +17,7 @@ export function Header() {
         >
           🛒
           {count > 0 && (
-            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-paomma-primary text-xs text-white">
+            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-paomma-primaryDark text-xs text-white">
               {count}
             </span>
           )}

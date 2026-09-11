@@ -83,7 +83,7 @@ export function CartDrawer() {
             </div>
             <button
               onClick={openOrderForm}
-              className="mt-4 w-full rounded-full bg-paomma-primary py-3 font-semibold text-white"
+              className="mt-4 w-full rounded-full bg-paomma-primaryDark py-3 font-semibold text-white transition hover:bg-paomma-primaryDarker"
             >
               Оформить заказ
             </button>

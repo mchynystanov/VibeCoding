@@ -27,7 +27,7 @@ export function BionicPumpSection() {
           <p className="mt-4 text-lg font-bold">{product.price.toLocaleString("ru-RU")} ₽</p>
           <button
             onClick={() => addItem(product.id)}
-            className="mt-4 rounded-full bg-paomma-primary px-6 py-2 font-semibold text-white transition hover:bg-paomma-primaryDark"
+            className="mt-4 rounded-full bg-paomma-primaryDark px-6 py-2 font-semibold text-white transition hover:bg-paomma-primaryDarker"
           >
             В корзину
           </button>

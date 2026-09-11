@@ -3,6 +3,7 @@ import { persist } from "zustand/middleware";
 import type { CartItem } from "@/lib/pricing";
 import { calculateTotals } from "@/lib/pricing";
 import { getProductById } from "@/data/products";
+import { trackEvent } from "@/lib/analytics";
 
 type CartState = {
   items: CartItem[];
@@ -27,6 +28,7 @@ export const useCartStore = create<CartState>()(
 
       addItem: (productId) =>
         set((state) => {
+          trackEvent("add_to_cart", { productId });
           const existing = state.items.find((item) => item.id === productId);
           if (existing) {
             return {

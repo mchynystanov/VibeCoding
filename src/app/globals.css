@@ -10,3 +10,14 @@ body {
   background-color: theme("colors.paomma.bg");
   color: theme("colors.paomma.text");
 }
+
+/* Видимый фокус на всех интерактивных элементах (раздел 14 ТЗ — доступность) */
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+summary:focus-visible {
+  outline: 2px solid theme("colors.paomma.primaryDark");
+  outline-offset: 2px;
+}
