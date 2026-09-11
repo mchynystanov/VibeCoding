@@ -11,6 +11,7 @@ const STEPS: (keyof QuizAnswers)[] = ["need", "frequency", "handsFree"];
 export function Quiz() {
   const [answers, setAnswers] = useState<Partial<QuizAnswers>>({});
   const addItem = useCartStore((state) => state.addItem);
+  const openOrderForm = useCartStore((state) => state.openOrderForm);
 
   const currentStepIndex = STEPS.findIndex((key) => answers[key] === undefined);
   const isDone = currentStepIndex === -1;
@@ -36,7 +37,10 @@ export function Quiz() {
             <h3 className="mt-2 text-xl font-bold">{product.title}</h3>
             <p className="mt-2 text-lg font-bold">{product.price.toLocaleString("ru-RU")} ₽</p>
             <button
-              onClick={() => addItem(product.id)}
+              onClick={() => {
+                addItem(product.id);
+                openOrderForm();
+              }}
               className="mt-4 w-full rounded-full bg-paomma-primary py-3 font-semibold text-white transition hover:bg-paomma-primaryDark"
             >
               Заказать

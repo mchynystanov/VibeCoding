@@ -7,12 +7,15 @@ import { getProductById } from "@/data/products";
 type CartState = {
   items: CartItem[];
   isOpen: boolean;
+  isOrderFormOpen: boolean;
   addItem: (productId: string) => void;
   removeItem: (productId: string) => void;
   setQty: (productId: string, qty: number) => void;
   clear: () => void;
   open: () => void;
   close: () => void;
+  openOrderForm: () => void;
+  closeOrderForm: () => void;
 };
 
 export const useCartStore = create<CartState>()(
@@ -20,6 +23,7 @@ export const useCartStore = create<CartState>()(
     (set) => ({
       items: [],
       isOpen: false,
+      isOrderFormOpen: false,
 
       addItem: (productId) =>
         set((state) => {
@@ -58,6 +62,8 @@ export const useCartStore = create<CartState>()(
       clear: () => set({ items: [] }),
       open: () => set({ isOpen: true }),
       close: () => set({ isOpen: false }),
+      openOrderForm: () => set({ isOpen: false, isOrderFormOpen: true }),
+      closeOrderForm: () => set({ isOrderFormOpen: false }),
     }),
     {
       name: "paomma-cart",

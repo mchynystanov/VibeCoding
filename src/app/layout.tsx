@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { FloatingContactButton } from "@/components/FloatingContactButton";
 import { CartDrawer } from "@/components/CartDrawer";
+import { OrderForm } from "@/components/OrderForm";
 
 export const metadata: Metadata = {
   title: "Paomma — сцеживайтесь. Кормите. Живите своей жизнью.",
@@ -22,6 +23,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       <body>
         {children}
         <CartDrawer />
+        <OrderForm />
         <FloatingContactButton />
       </body>
     </html>

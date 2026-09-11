@@ -8,6 +8,7 @@ export function CartDrawer() {
   const close = useCartStore((state) => state.close);
   const removeItem = useCartStore((state) => state.removeItem);
   const setQty = useCartStore((state) => state.setQty);
+  const openOrderForm = useCartStore((state) => state.openOrderForm);
   const totals = useCartTotals();
 
   if (!isOpen) return null;
@@ -80,8 +81,10 @@ export function CartDrawer() {
               <span>Итого</span>
               <span>{totals.total.toLocaleString("ru-RU")} ₽</span>
             </div>
-            {/* TODO(этап 6): кнопка открывает OrderForm */}
-            <button className="mt-4 w-full rounded-full bg-paomma-primary py-3 font-semibold text-white">
+            <button
+              onClick={openOrderForm}
+              className="mt-4 w-full rounded-full bg-paomma-primary py-3 font-semibold text-white"
+            >
               Оформить заказ
             </button>
           </div>
