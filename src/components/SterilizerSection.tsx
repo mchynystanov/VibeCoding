@@ -1,8 +1,29 @@
+import { getProductById } from "@/data/products";
+import { ProductImagePlaceholder } from "@/components/ProductImagePlaceholder";
+
 export function SterilizerSection() {
+  const product = getProductById("sterilizer");
+  if (!product) return null;
+
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
-      <h2 className="mb-6 text-2xl font-bold">Стерилизатор 5 в 1</h2>
-      {/* TODO(этап 2): функции из раздела 5.2 ТЗ */}
+      <div className="grid grid-cols-1 items-center gap-8 sm:grid-cols-2">
+        <div>
+          <h2 className="mb-2 text-2xl font-bold">Стерилизатор 5 в 1</h2>
+          <p className="mb-4 text-paomma-text/70">{product.shortDescription}</p>
+          <dl className="space-y-2 text-sm">
+            {product.specs.map((spec) => (
+              <div key={spec.label} className="flex gap-2">
+                <dt className="font-semibold">{spec.label}:</dt>
+                <dd>{spec.value}</dd>
+              </div>
+            ))}
+          </dl>
+          <p className="mt-4 text-lg font-bold">{product.price.toLocaleString("ru-RU")} ₽</p>
+          {/* TODO(этап 4): кнопка "В корзину" — подключить cart-store */}
+        </div>
+        <ProductImagePlaceholder title={product.title} />
+      </div>
     </section>
   );
 }
