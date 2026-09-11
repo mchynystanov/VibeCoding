@@ -1,8 +1,12 @@
+"use client";
+
 import { getProductById } from "@/data/products";
 import { ProductImagePlaceholder } from "@/components/ProductImagePlaceholder";
+import { useCartStore } from "@/lib/cart-store";
 
 export function BionicPumpSection() {
   const product = getProductById("bionic-pump");
+  const addItem = useCartStore((state) => state.addItem);
   if (!product) return null;
 
   return (
@@ -21,7 +25,12 @@ export function BionicPumpSection() {
             ))}
           </dl>
           <p className="mt-4 text-lg font-bold">{product.price.toLocaleString("ru-RU")} ₽</p>
-          {/* TODO(этап 4): кнопка "В корзину" — подключить cart-store */}
+          <button
+            onClick={() => addItem(product.id)}
+            className="mt-4 rounded-full bg-paomma-primary px-6 py-2 font-semibold text-white transition hover:bg-paomma-primaryDark"
+          >
+            В корзину
+          </button>
         </div>
       </div>
     </section>
