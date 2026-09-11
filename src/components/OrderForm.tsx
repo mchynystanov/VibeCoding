@@ -1,13 +1,14 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { orderSchema, CITY_OPTIONS } from "@/lib/schemas";
+import { orderSchema, CITY_PRESETS } from "@/lib/schemas";
 import type { OrderInput } from "@/lib/schemas";
 import { useCartStore, useCartTotals } from "@/lib/cart-store";
 
 type SubmitState = "form" | "submitting" | "success" | "error";
+type CityMode = (typeof CITY_PRESETS)[number] | "other";
 
 const WHATSAPP_FALLBACK = process.env.NEXT_PUBLIC_WHATSAPP_FALLBACK;
 const TELEGRAM_FALLBACK = process.env.NEXT_PUBLIC_TELEGRAM_FALLBACK;
@@ -21,23 +22,21 @@ export function OrderForm() {
 
   const [submitState, setSubmitState] = useState<SubmitState>("form");
   const [orderId, setOrderId] = useState<string | null>(null);
+  const [cityMode, setCityMode] = useState<CityMode>("Бишкек");
 
   const {
     register,
     handleSubmit,
     watch,
+    setValue,
     reset,
     formState: { errors },
   } = useForm<OrderInput>({
     resolver: zodResolver(orderSchema),
     defaultValues: {
-      name: "",
-      phone: "",
-      city: "Бишкек",
-      cityOther: "",
+      customer: { name: "", phone: "", city: "Бишкек", address: null },
       deliveryMethod: "delivery",
-      address: "",
-      comment: "",
+      comment: null,
       honeypot: "",
       items: [],
       discount: 0,
@@ -45,8 +44,15 @@ export function OrderForm() {
     },
   });
 
-  const city = watch("city");
   const deliveryMethod = watch("deliveryMethod");
+
+  // Держим items/discount/total в форме синхронными с корзиной — эти поля
+  // не редактируются пользователем напрямую, но должны пройти общую схему.
+  useEffect(() => {
+    setValue("items", items);
+    setValue("discount", totals.discount);
+    setValue("total", totals.total);
+  }, [items, totals.discount, totals.total, setValue]);
 
   if (!isOrderFormOpen) return null;
 
@@ -59,26 +65,22 @@ export function OrderForm() {
     }
   }
 
+  function handleCityModeChange(mode: CityMode) {
+    setCityMode(mode);
+    if (mode !== "other") {
+      setValue("customer.city", mode);
+    } else {
+      setValue("customer.city", "");
+    }
+  }
+
   const submit = handleSubmit(async (data) => {
     setSubmitState("submitting");
     try {
       const res = await fetch("/api/order", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          customer: {
-            name: data.name,
-            phone: data.phone,
-            city: data.city === "other" ? data.cityOther : data.city,
-            address: data.deliveryMethod === "delivery" ? data.address : null,
-          },
-          deliveryMethod: data.deliveryMethod,
-          items,
-          discount: totals.discount,
-          total: totals.total,
-          comment: data.comment || null,
-          honeypot: data.honeypot,
-        }),
+        body: JSON.stringify(data),
       });
 
       if (!res.ok) throw new Error("Request failed");
@@ -158,41 +160,50 @@ export function OrderForm() {
             <div>
               <label className="mb-1 block text-sm font-medium">Имя</label>
               <input
-                {...register("name")}
+                {...register("customer.name")}
                 className="w-full rounded-lg border p-2 text-sm"
                 placeholder="Как к вам обращаться"
               />
-              {errors.name && <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>}
+              {errors.customer?.name && (
+                <p className="mt-1 text-xs text-red-600">{errors.customer.name.message}</p>
+              )}
             </div>
 
             <div>
               <label className="mb-1 block text-sm font-medium">Телефон</label>
               <input
-                {...register("phone")}
+                {...register("customer.phone")}
                 className="w-full rounded-lg border p-2 text-sm"
                 placeholder="+996 700 123 456"
               />
-              {errors.phone && <p className="mt-1 text-xs text-red-600">{errors.phone.message}</p>}
+              {errors.customer?.phone && (
+                <p className="mt-1 text-xs text-red-600">{errors.customer.phone.message}</p>
+              )}
             </div>
 
             <div>
               <label className="mb-1 block text-sm font-medium">Город</label>
-              <select {...register("city")} className="w-full rounded-lg border p-2 text-sm">
-                {CITY_OPTIONS.map((option) => (
+              <select
+                value={cityMode}
+                onChange={(e) => handleCityModeChange(e.target.value as CityMode)}
+                className="w-full rounded-lg border p-2 text-sm"
+              >
+                {CITY_PRESETS.map((option) => (
                   <option key={option} value={option}>
-                    {option === "other" ? "Другой регион" : option}
+                    {option}
                   </option>
                 ))}
+                <option value="other">Другой регион</option>
               </select>
-              {city === "other" && (
+              {cityMode === "other" && (
                 <input
-                  {...register("cityOther")}
+                  {...register("customer.city")}
                   className="mt-2 w-full rounded-lg border p-2 text-sm"
                   placeholder="Укажите ваш город"
                 />
               )}
-              {errors.cityOther && (
-                <p className="mt-1 text-xs text-red-600">{errors.cityOther.message}</p>
+              {errors.customer?.city && (
+                <p className="mt-1 text-xs text-red-600">{errors.customer.city.message}</p>
               )}
             </div>
 
@@ -214,12 +225,12 @@ export function OrderForm() {
               <div>
                 <label className="mb-1 block text-sm font-medium">Адрес</label>
                 <input
-                  {...register("address")}
+                  {...register("customer.address")}
                   className="w-full rounded-lg border p-2 text-sm"
                   placeholder="Улица, дом, квартира"
                 />
-                {errors.address && (
-                  <p className="mt-1 text-xs text-red-600">{errors.address.message}</p>
+                {errors.customer?.address && (
+                  <p className="mt-1 text-xs text-red-600">{errors.customer.address.message}</p>
                 )}
               </div>
             )}
