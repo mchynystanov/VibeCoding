@@ -24,16 +24,8 @@ mode. Хук в `.claude/settings.json` автоматически формат�
 
 ## Команды разработки
 
-- `npm run dev` — локальный сервер разработки. Обёрнут в
-  `scripts/with-secrets.mjs`: если в корне есть непустой зашифрованный `.env`,
-  запускается через `sops exec-env .env -- next dev` (секреты идут только в
-  переменные окружения процесса next, на диск в открытом виде не попадают и
-  никуда не печатаются); если `.env` нет/пуст — обычный `next dev` без sops
-  (для чистой вёрстки без интеграций). Подробности — `README.md`.
-- `npm run build` — прод-сборка, `next build` напрямую (сейчас секреты на
-  этапе сборки не нужны — см. README про `NEXT_PUBLIC_*` на будущее).
-- `npm run start` — прод-запуск, обёрнут так же, как `dev` (нужен доступ к
-  `TELEGRAM_*`/`GOOGLE_*` в рантайме для `api/order/route.ts`).
+- `npm run dev` — локальный сервер разработки
+- `npm run build` / `npm run start` — прод-сборка и запуск
 - `npm run typecheck` — проверка типов (`tsc --noEmit`)
 - `npm run lint` — ESLint
 - `npm run format` / `npm run format:check` — Prettier
@@ -53,10 +45,7 @@ mode. Хук в `.claude/settings.json` автоматически формат�
 `.env` — реальные значения (Telegram-токен, Google service account ключ)
 НЕ создаются напрямую в основном чате: делегируются субагенту
 `secret-keeper` (см. глобальный `~/.claude/CLAUDE.md`). `.env.example`
-содержит только имена переменных. `.env` хранится зашифрованным (sops+age);
-запуск с расшифровкой на лету — через `scripts/with-secrets.mjs`
-(см. `npm run dev`/`npm run start` выше и `README.md`). Подробнее о картe
-секретов — `ХРАНИТЕЛЬ.md`.
+содержит только имена переменных.
 
 ## Заметки для Claude Code
 
