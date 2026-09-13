@@ -7,20 +7,14 @@ export function Header() {
   const count = useCartCount();
 
   return (
-    <header className="sticky top-0 z-40 bg-paomma-bg/90 backdrop-blur">
-      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-3">
-        <span className="text-xl font-bold text-paomma-primaryDark">Paomma</span>
+    <header className="sticky top-0 z-40 border-b border-paomma-line bg-paomma-bg">
+      <div className="mx-auto flex max-w-6xl items-center justify-between px-4 py-4">
+        <span className="text-lg tracking-widest text-paomma-ink">paomma</span>
         <button
           onClick={open}
-          aria-label="Открыть корзину"
-          className="relative rounded-full bg-white p-2 shadow-sm"
+          className="flex items-center gap-2 border border-paomma-ink px-4 py-2 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
         >
-          🛒
-          {count > 0 && (
-            <span className="absolute -right-1 -top-1 flex h-5 w-5 items-center justify-center rounded-full bg-paomma-primaryDark text-xs text-white">
-              {count}
-            </span>
-          )}
+          Корзина{count > 0 ? ` (${count})` : ""}
         </button>
       </div>
     </header>

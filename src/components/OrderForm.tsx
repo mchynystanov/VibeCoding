@@ -98,25 +98,31 @@ export function OrderForm() {
   });
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 p-4">
-      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto rounded-2xl bg-white p-6 shadow-xl">
-        <div className="mb-4 flex items-center justify-between">
-          <h2 className="text-lg font-bold">Оформление заказа</h2>
-          <button onClick={handleClose} aria-label="Закрыть" className="text-xl">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-paomma-ink/30 p-4">
+      <div className="max-h-[90vh] w-full max-w-md overflow-y-auto border border-paomma-line bg-paomma-bg p-8">
+        <div className="mb-6 flex items-center justify-between">
+          <h2 className="text-lg font-light tracking-tight">Оформление заказа</h2>
+          <button
+            onClick={handleClose}
+            aria-label="Закрыть"
+            className="text-xl text-paomma-inkMuted"
+          >
             ×
           </button>
         </div>
 
         {submitState === "success" && (
           <div className="text-center">
-            <p className="text-lg font-semibold">Спасибо за заказ!</p>
-            {orderId && <p className="mt-1 text-sm text-paomma-text/70">Номер заказа: {orderId}</p>}
-            <p className="mt-2 text-sm text-paomma-text/70">
+            <p className="text-lg font-medium">Спасибо за заказ!</p>
+            {orderId && (
+              <p className="mt-1 text-sm text-paomma-inkMuted">Номер заказа: {orderId}</p>
+            )}
+            <p className="mt-2 text-sm text-paomma-inkMuted">
               Мы свяжемся с вами в течение 2 часов для подтверждения.
             </p>
             <button
               onClick={handleClose}
-              className="mt-4 rounded-full bg-paomma-primaryDark px-6 py-2 font-semibold text-white transition hover:bg-paomma-primaryDarker"
+              className="mt-6 border border-paomma-ink px-6 py-2 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
             >
               Закрыть
             </button>
@@ -125,17 +131,17 @@ export function OrderForm() {
 
         {submitState === "error" && (
           <div className="text-center">
-            <p className="font-semibold text-red-600">Не удалось отправить заказ</p>
-            <p className="mt-2 text-sm text-paomma-text/70">
+            <p className="font-medium text-red-600">Не удалось отправить заказ</p>
+            <p className="mt-2 text-sm text-paomma-inkMuted">
               Пожалуйста, продублируйте заказ через WhatsApp или Telegram:
             </p>
-            <div className="mt-3 flex flex-col gap-2">
+            <div className="mt-4 flex flex-col gap-2">
               {WHATSAPP_FALLBACK && (
                 <a
                   href={`https://wa.me/${WHATSAPP_FALLBACK}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-green-700 py-2 text-sm font-semibold text-white"
+                  className="border border-paomma-ink py-2 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
                 >
                   Написать в WhatsApp
                 </a>
@@ -145,13 +151,16 @@ export function OrderForm() {
                   href={`https://t.me/${TELEGRAM_FALLBACK.replace("@", "")}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="rounded-full bg-blue-600 py-2 text-sm font-semibold text-white"
+                  className="border border-paomma-ink py-2 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
                 >
                   Написать в Telegram
                 </a>
               )}
             </div>
-            <button onClick={() => setSubmitState("form")} className="mt-4 text-sm underline">
+            <button
+              onClick={() => setSubmitState("form")}
+              className="mt-4 text-xs uppercase tracking-wide text-paomma-inkMuted underline"
+            >
               Попробовать снова
             </button>
           </div>
@@ -166,7 +175,7 @@ export function OrderForm() {
               <input
                 id="order-name"
                 {...register("customer.name")}
-                className="w-full rounded-lg border p-2 text-sm"
+                className="w-full border border-paomma-line bg-paomma-bg p-2 text-sm"
                 placeholder="Как к вам обращаться"
               />
               {errors.customer?.name && (
@@ -181,7 +190,7 @@ export function OrderForm() {
               <input
                 id="order-phone"
                 {...register("customer.phone")}
-                className="w-full rounded-lg border p-2 text-sm"
+                className="w-full border border-paomma-line bg-paomma-bg p-2 text-sm"
                 placeholder="+996 700 123 456"
               />
               {errors.customer?.phone && (
@@ -197,7 +206,7 @@ export function OrderForm() {
                 id="order-city"
                 value={cityMode}
                 onChange={(e) => handleCityModeChange(e.target.value as CityMode)}
-                className="w-full rounded-lg border p-2 text-sm"
+                className="w-full border border-paomma-line bg-paomma-bg p-2 text-sm"
               >
                 {CITY_PRESETS.map((option) => (
                   <option key={option} value={option}>
@@ -210,7 +219,7 @@ export function OrderForm() {
                 <input
                   {...register("customer.city")}
                   aria-label="Укажите ваш город"
-                  className="mt-2 w-full rounded-lg border p-2 text-sm"
+                  className="mt-2 w-full border border-paomma-line bg-paomma-bg p-2 text-sm"
                   placeholder="Укажите ваш город"
                 />
               )}
@@ -241,7 +250,7 @@ export function OrderForm() {
                 <input
                   id="order-address"
                   {...register("customer.address")}
-                  className="w-full rounded-lg border p-2 text-sm"
+                  className="w-full border border-paomma-line bg-paomma-bg p-2 text-sm"
                   placeholder="Улица, дом, квартира"
                 />
                 {errors.customer?.address && (
@@ -257,7 +266,7 @@ export function OrderForm() {
               <textarea
                 id="order-comment"
                 {...register("comment")}
-                className="w-full rounded-lg border p-2 text-sm"
+                className="w-full border border-paomma-line bg-paomma-bg p-2 text-sm"
                 rows={2}
               />
             </div>
@@ -271,8 +280,8 @@ export function OrderForm() {
               className="absolute -left-[9999px] h-0 w-0 overflow-hidden"
             />
 
-            <div className="border-t pt-3 text-sm">
-              <div className="flex justify-between font-bold">
+            <div className="border-t border-paomma-line pt-3 text-sm">
+              <div className="flex justify-between font-medium">
                 <span>Итого</span>
                 <span>{totals.total.toLocaleString("ru-RU")} ₽</span>
               </div>
@@ -281,7 +290,7 @@ export function OrderForm() {
             <button
               type="submit"
               disabled={submitState === "submitting"}
-              className="rounded-full bg-paomma-primaryDark py-3 font-semibold text-white transition hover:bg-paomma-primaryDarker disabled:opacity-60"
+              className="border border-paomma-ink py-3 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg disabled:opacity-60"
             >
               {submitState === "submitting" ? "Отправляем..." : "Оформить заказ"}
             </button>

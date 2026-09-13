@@ -37,13 +37,16 @@ const FAQ_ITEMS = [
 
 export function Faq() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12">
-      <h2 className="mb-6 text-2xl font-bold">Частые вопросы</h2>
-      <div className="space-y-4">
+    <section className="mx-auto max-w-6xl px-4 py-16">
+      <div className="section-eyebrow mb-3">
+        <span>Вопросы</span>
+      </div>
+      <h2 className="mb-8 text-3xl font-light tracking-tight">Частые вопросы</h2>
+      <div className="divide-y divide-paomma-line border-t border-paomma-line">
         {FAQ_ITEMS.map((item) => (
-          <details key={item.q} className="rounded-xl bg-white p-4 shadow-sm">
-            <summary className="cursor-pointer font-semibold">{item.q}</summary>
-            <p className="mt-2 text-sm text-paomma-text/70">{item.a}</p>
+          <details key={item.q} className="py-4">
+            <summary className="cursor-pointer font-medium">{item.q}</summary>
+            <p className="mt-2 text-sm text-paomma-inkMuted">{item.a}</p>
           </details>
         ))}
       </div>

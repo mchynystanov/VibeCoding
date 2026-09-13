@@ -37,23 +37,29 @@ export function Quiz() {
     const product = getProductById(productId);
 
     return (
-      <section className="mx-auto max-w-6xl px-4 py-12">
-        <h2 className="mb-6 text-2xl font-bold">Подберите свой товар</h2>
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="section-eyebrow mb-3">
+          <span>Подборщик</span>
+        </div>
+        <h2 className="mb-8 text-3xl font-light tracking-tight">Подберите свой товар</h2>
         {product && (
-          <div className="mx-auto max-w-sm rounded-2xl bg-white p-6 text-center shadow-sm">
-            <p className="text-sm text-paomma-text/70">Вам подойдёт:</p>
-            <h3 className="mt-2 text-xl font-bold">{product.title}</h3>
-            <p className="mt-2 text-lg font-bold">{product.price.toLocaleString("ru-RU")} ₽</p>
+          <div className="mx-auto max-w-sm border border-paomma-line p-8 text-center">
+            <p className="text-sm text-paomma-inkMuted">Вам подойдёт:</p>
+            <h3 className="mt-2 text-xl font-light tracking-tight">{product.title}</h3>
+            <p className="mt-2 text-lg font-semibold">{product.price.toLocaleString("ru-RU")} ₽</p>
             <button
               onClick={() => {
                 addItem(product.id);
                 openOrderForm();
               }}
-              className="mt-4 w-full rounded-full bg-paomma-primaryDark py-3 font-semibold text-white transition hover:bg-paomma-primaryDarker"
+              className="mt-6 w-full border border-paomma-ink py-3 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
             >
               Заказать
             </button>
-            <button onClick={reset} className="mt-2 text-sm text-paomma-text/50 underline">
+            <button
+              onClick={reset}
+              className="mt-3 text-xs uppercase tracking-wide text-paomma-inkMuted underline"
+            >
               Пройти квиз заново
             </button>
           </div>
@@ -66,19 +72,22 @@ export function Quiz() {
   const question = QUIZ_QUESTIONS[stepKey];
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12">
-      <h2 className="mb-6 text-2xl font-bold">Подберите свой товар</h2>
-      <div className="mx-auto max-w-md rounded-2xl bg-white p-6 shadow-sm">
-        <p className="mb-4 text-sm text-paomma-text/50">
+    <section className="mx-auto max-w-6xl px-4 py-16">
+      <div className="section-eyebrow mb-3">
+        <span>Подборщик</span>
+      </div>
+      <h2 className="mb-8 text-3xl font-light tracking-tight">Подберите свой товар</h2>
+      <div className="mx-auto max-w-md border border-paomma-line p-8">
+        <p className="mb-4 text-xs uppercase tracking-wide text-paomma-inkMuted">
           Вопрос {currentStepIndex + 1} из {STEPS.length}
         </p>
-        <p className="mb-4 font-semibold">{question.text}</p>
+        <p className="mb-4 font-medium">{question.text}</p>
         <div className="flex flex-col gap-2">
           {question.options.map((option) => (
             <button
               key={option.value}
               onClick={() => selectAnswer(stepKey, option.value)}
-              className="rounded-full border border-paomma-primary/30 py-2 text-sm transition hover:bg-paomma-primary/10"
+              className="border border-paomma-line py-2 text-sm transition hover:border-paomma-ink"
             >
               {option.label}
             </button>

@@ -1,8 +1,14 @@
 import type { Metadata } from "next";
+import { Inter } from "next/font/google";
 import "./globals.css";
 import { FloatingContactButton } from "@/components/FloatingContactButton";
 import { CartDrawer } from "@/components/CartDrawer";
 import { OrderForm } from "@/components/OrderForm";
+
+const inter = Inter({
+  subsets: ["latin", "cyrillic"],
+  variable: "--font-inter",
+});
 
 export const metadata: Metadata = {
   title: "Paomma — сцеживайтесь. Кормите. Живите своей жизнью.",
@@ -19,7 +25,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="ru">
+    <html lang="ru" className={inter.variable}>
       <body>
         {children}
         <CartDrawer />

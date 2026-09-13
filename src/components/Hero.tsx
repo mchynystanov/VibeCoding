@@ -1,34 +1,40 @@
 const TRUST_BULLETS = [
-  "Оплата при получении — без предоплаты и рисков",
-  "Гарантия на технику — от 12 до 24 месяцев в зависимости от модели",
-  "Доставка по Бишкеку, Чуйской области и регионам",
-  "Бионические модели работают бесшумно — можно сцеживаться даже ночью",
+  "Оплата при получении",
+  "Гарантия 12–24 месяца",
+  "Доставка по КР и КЗ",
+  "Бесшумная работа",
 ];
 
 export function Hero() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16 text-center">
-      <h1 className="text-3xl font-bold sm:text-5xl">
-        Сцеживайтесь. Кормите. Живите своей жизнью.
-      </h1>
-      <p className="mx-auto mt-4 max-w-xl text-paomma-text/70">
-        Техника Paomma освобождает время, а не просто помогает — она заботится о вас так же, как вы
-        заботитесь о малыше.
-      </p>
-      <ul className="mx-auto mt-8 grid max-w-2xl grid-cols-1 gap-3 text-left text-sm sm:grid-cols-2">
-        {TRUST_BULLETS.map((bullet) => (
-          <li key={bullet} className="flex gap-2 rounded-lg bg-white p-3 shadow-sm">
-            <span aria-hidden>✓</span>
-            <span>{bullet}</span>
-          </li>
-        ))}
-      </ul>
-      <a
-        href="#products"
-        className="mt-8 inline-block rounded-full bg-paomma-primaryDark px-8 py-3 font-semibold text-white transition hover:bg-paomma-primaryDarker"
-      >
-        Выбрать товар
-      </a>
+    <section className="bg-paomma-surface">
+      <div className="mx-auto max-w-4xl px-4 py-24 text-center">
+        <div className="section-eyebrow mb-4 justify-center">
+          <span>Paomma</span>
+        </div>
+        <h1 className="text-3xl font-light tracking-tight sm:text-5xl">
+          Сцеживайтесь. Кормите.
+          <br />
+          Живите своей жизнью.
+        </h1>
+        <p className="mx-auto mt-5 max-w-xl text-paomma-inkMuted">
+          Техника Paomma освобождает время, а не просто помогает — она заботится о вас так же, как
+          вы заботитесь о малыше.
+        </p>
+        <ul className="mx-auto mt-10 flex max-w-2xl flex-wrap items-center justify-center gap-x-6 gap-y-3 divide-x divide-paomma-line text-xs uppercase tracking-wide text-paomma-inkMuted">
+          {TRUST_BULLETS.map((bullet, i) => (
+            <li key={bullet} className={i > 0 ? "pl-6" : ""}>
+              {bullet}
+            </li>
+          ))}
+        </ul>
+        <a
+          href="#products"
+          className="mt-10 inline-block border border-paomma-ink px-10 py-3 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
+        >
+          Выбрать товар
+        </a>
+      </div>
     </section>
   );
 }

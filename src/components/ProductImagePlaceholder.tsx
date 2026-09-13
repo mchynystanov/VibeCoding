@@ -4,7 +4,7 @@
 export function ProductImagePlaceholder({ title }: { title: string }) {
   return (
     <div
-      className="flex aspect-square items-center justify-center rounded-xl bg-paomma-primary/15 text-center text-sm text-paomma-primaryDark"
+      className="flex aspect-square items-center justify-center bg-paomma-surface p-6 text-center text-xs uppercase tracking-wide text-paomma-inkMuted"
       role="img"
       aria-label={title}
     >

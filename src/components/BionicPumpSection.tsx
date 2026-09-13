@@ -10,24 +10,27 @@ export function BionicPumpSection() {
   if (!product) return null;
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-12">
-      <div className="grid grid-cols-1 items-center gap-8 sm:grid-cols-2">
+    <section className="mx-auto max-w-6xl px-4 py-16">
+      <div className="grid grid-cols-1 items-center gap-10 sm:grid-cols-2">
         <ProductImagePlaceholder title={product.title} />
         <div>
-          <h2 className="mb-2 text-2xl font-bold">Свободные руки</h2>
-          <p className="mb-4 text-paomma-text/70">{product.shortDescription}</p>
+          <div className="section-eyebrow mb-3">
+            <span>Хит продаж</span>
+          </div>
+          <h2 className="mb-2 text-3xl font-light tracking-tight">Свободные руки</h2>
+          <p className="mb-4 text-paomma-inkMuted">{product.shortDescription}</p>
           <dl className="space-y-2 text-sm">
             {product.specs.map((spec) => (
               <div key={spec.label} className="flex gap-2">
-                <dt className="font-semibold">{spec.label}:</dt>
-                <dd>{spec.value}</dd>
+                <dt className="font-medium">{spec.label}:</dt>
+                <dd className="text-paomma-inkMuted">{spec.value}</dd>
               </div>
             ))}
           </dl>
-          <p className="mt-4 text-lg font-bold">{product.price.toLocaleString("ru-RU")} ₽</p>
+          <p className="mt-4 text-lg font-semibold">{product.price.toLocaleString("ru-RU")} ₽</p>
           <button
             onClick={() => addItem(product.id)}
-            className="mt-4 rounded-full bg-paomma-primaryDark px-6 py-2 font-semibold text-white transition hover:bg-paomma-primaryDarker"
+            className="mt-4 border border-paomma-ink px-6 py-2 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
           >
             В корзину
           </button>

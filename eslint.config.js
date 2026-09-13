@@ -15,6 +15,21 @@ export default tseslint.config(
       ...nextPlugin.configs["core-web-vitals"].rules,
     },
   },
+  {
+    // Node-скрипты вне src/ (например, scripts/with-secrets.mjs) — не браузерный код.
+    files: ["scripts/**/*.mjs"],
+    languageOptions: {
+      globals: {
+        process: "readonly",
+        console: "readonly",
+        __dirname: "readonly",
+        __filename: "readonly",
+        module: "readonly",
+        require: "readonly",
+        Buffer: "readonly",
+      },
+    },
+  },
   eslintConfigPrettier,
   {
     ignores: ["dist/", ".next/", "node_modules/", "next-env.d.ts"],

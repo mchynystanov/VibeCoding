@@ -11,10 +11,9 @@ export function FloatingContactButton() {
           href={`https://wa.me/${WHATSAPP_FALLBACK}`}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Написать в WhatsApp"
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-green-600 text-2xl text-white shadow-lg"
+          className="border border-paomma-ink bg-paomma-bg px-4 py-2 text-xs uppercase tracking-wide text-paomma-ink shadow-sm transition hover:bg-paomma-ink hover:text-paomma-bg"
         >
-          💬
+          WhatsApp
         </a>
       )}
       {TELEGRAM_FALLBACK && (
@@ -22,10 +21,9 @@ export function FloatingContactButton() {
           href={`https://t.me/${TELEGRAM_FALLBACK.replace("@", "")}`}
           target="_blank"
           rel="noopener noreferrer"
-          aria-label="Написать в Telegram"
-          className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-500 text-2xl text-white shadow-lg"
+          className="border border-paomma-ink bg-paomma-bg px-4 py-2 text-xs uppercase tracking-wide text-paomma-ink shadow-sm transition hover:bg-paomma-ink hover:text-paomma-bg"
         >
-          ✈️
+          Telegram
         </a>
       )}
     </div>
