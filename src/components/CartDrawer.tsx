@@ -43,7 +43,7 @@ export function CartDrawer() {
                 <div className="flex items-center gap-2">
                   <button
                     aria-label="Уменьшить количество"
-                    className="h-7 w-7 border border-paomma-line"
+                    className="h-9 w-9 border border-paomma-line"
                     onClick={() => setQty(item.id, item.qty - 1)}
                   >
                     −
@@ -51,7 +51,7 @@ export function CartDrawer() {
                   <span>{item.qty}</span>
                   <button
                     aria-label="Увеличить количество"
-                    className="h-7 w-7 border border-paomma-line"
+                    className="h-9 w-9 border border-paomma-line"
                     onClick={() => setQty(item.id, item.qty + 1)}
                   >
                     +
