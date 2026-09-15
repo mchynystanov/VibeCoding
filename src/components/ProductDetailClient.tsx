@@ -13,8 +13,14 @@ export function ProductDetailClient({ product }: { product: Product }) {
 
   return (
     <div>
-      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
-        <ProductImage product={{ ...product, images: product.detailImages ?? [] }} />
+      <div
+        className={
+          product.detailImages?.length ? "grid grid-cols-1 gap-10 sm:grid-cols-2" : "max-w-2xl"
+        }
+      >
+        {product.detailImages?.length ? (
+          <ProductImage product={{ ...product, images: product.detailImages }} />
+        ) : null}
         <div>
           <h1 className="mb-2 text-3xl font-light tracking-tight">{product.title}</h1>
           <p className="mb-6 text-paomma-inkMuted">{product.shortDescription}</p>
