@@ -24,14 +24,16 @@ export function ProductDetailClient({ product }: { product: Product }) {
         <div>
           <h1 className="mb-2 text-3xl font-light tracking-tight">{product.title}</h1>
           <p className="mb-6 text-paomma-inkMuted">{product.shortDescription}</p>
-          <dl className="space-y-2 text-sm">
-            {product.specs.map((spec) => (
-              <div key={spec.label} className="flex gap-2">
-                <dt className="font-medium">{spec.label}:</dt>
-                <dd className="text-paomma-inkMuted">{spec.value}</dd>
-              </div>
-            ))}
-          </dl>
+          {!product.fullSpecsTable && (
+            <dl className="space-y-2 text-sm">
+              {product.specs.map((spec) => (
+                <div key={spec.label} className="flex gap-2">
+                  <dt className="font-medium">{spec.label}:</dt>
+                  <dd className="text-paomma-inkMuted">{spec.value}</dd>
+                </div>
+              ))}
+            </dl>
+          )}
           <p className="mt-6 text-2xl font-semibold">{product.price.toLocaleString("ru-RU")} Сом</p>
           <button
             onClick={() => addItem(product.id)}
