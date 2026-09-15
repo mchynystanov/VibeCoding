@@ -35,7 +35,9 @@ export function ProductDetailClient({ product }: { product: Product }) {
           </button>
         </div>
       </div>
-      {product.modes && <ProductModes modes={product.modes} />}
+      {product.modes && (
+        <ProductModes modes={product.modes} intensityLevels={product.intensityLevels} />
+      )}
       {product.fullSpecsTable && <ProductSpecsTable specs={product.fullSpecsTable} />}
       {product.packageDimensions && product.packageContents && (
         <ProductPackage dimensions={product.packageDimensions} contents={product.packageContents} />

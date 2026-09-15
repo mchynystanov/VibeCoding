@@ -12,6 +12,7 @@ export type Product = {
   // paomma.ru/catalog/molokootsos/) — заполняются только когда есть
   // реальные данные для конкретного товара.
   modes?: { title: string; description: string }[];
+  intensityLevels?: { title: string; note: string };
   fullSpecsTable?: { label: string; value: string }[];
   packageDimensions?: { label: string; value: string }[];
   packageContents?: string[];
@@ -61,6 +62,10 @@ export const products: Product[] = [
           "Экспресс-режим: поможет моментально снять чувство тяжести, размягчит грудь при переполнении.",
       },
     ],
+    intensityLevels: {
+      title: "9 уровней интенсивности",
+      note: "в каждом режиме",
+    },
     fullSpecsTable: [
       { label: "Цвет", value: "almond milk (бежевый)" },
       { label: "Объём", value: "180 мл" },
