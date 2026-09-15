@@ -33,7 +33,7 @@ export default function HomePage() {
           product={bionicPump}
           eyebrow="Хит продаж"
           heading="Свободные руки"
-          imageSide="right"
+          imageSide="left"
         />
       )}
       <LifestyleSection />
