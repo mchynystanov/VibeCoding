@@ -38,7 +38,7 @@ export function CartDrawer() {
               <li key={item.id} className="flex items-center justify-between gap-2 py-3 text-sm">
                 <div className="flex-1">
                   <p className="font-medium">{item.title}</p>
-                  <p className="text-paomma-inkMuted">{item.price.toLocaleString("ru-RU")} ₽</p>
+                  <p className="text-paomma-inkMuted">{item.price.toLocaleString("ru-RU")} Сом</p>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
@@ -73,21 +73,21 @@ export function CartDrawer() {
           <div className="border-t border-paomma-line pt-4 text-sm">
             <div className="flex justify-between">
               <span>Сумма</span>
-              <span>{totals.subtotal.toLocaleString("ru-RU")} ₽</span>
+              <span>{totals.subtotal.toLocaleString("ru-RU")} Сом</span>
             </div>
             {totals.discount > 0 && (
               <div className="flex justify-between text-paomma-inkMuted">
                 <span>Скидка за комплект</span>
-                <span>−{totals.discount.toLocaleString("ru-RU")} ₽</span>
+                <span>−{totals.discount.toLocaleString("ru-RU")} Сом</span>
               </div>
             )}
             <div className="mt-1 flex justify-between font-medium">
               <span>Итого</span>
-              <span>{totals.total.toLocaleString("ru-RU")} ₽</span>
+              <span>{totals.total.toLocaleString("ru-RU")} Сом</span>
             </div>
             <button
               onClick={openOrderForm}
-              className="mt-4 w-full border border-paomma-ink py-3 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
+              className="mt-4 w-full bg-paomma-accent py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
             >
               Оформить заказ
             </button>

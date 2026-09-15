@@ -3,7 +3,7 @@ export type Product = {
   title: string;
   shortDescription: string;
   price: number;
-  currency: "RUB"; // TODO(owner): открытый вопрос №6 — валюта расчётов с покупателем (₽ или конвертация в KGS/KZT)
+  currency: "KGS"; // Открытый вопрос №6 из ТЗ решён владельцем: валюта — Сом (см. TODO.md)
   images: string[];
   specs: { label: string; value: string }[];
   category: "hit" | "accessory";
@@ -13,14 +13,27 @@ export type Product = {
 export const products: Product[] = [
   {
     id: "electric-pump",
-    title: "Молокоотсос электрический",
-    shortDescription: "Для комфортного ежедневного сцеживания",
-    price: 2475,
-    currency: "RUB",
+    title: "Беспроводной молокоотсос 3 в 1",
+    shortDescription: "Забота, которая подстраивается под ваш ритм жизни",
+    price: 2700,
+    currency: "KGS",
     images: ["/products/paomma-molokootsos-electric.webp"],
     specs: [
-      // TODO(owner): открытый вопрос №8 — гарантия на базовый электрический молокоотсос не найдена у поставщика
-      { label: "Гарантия", value: "уточняется" },
+      { label: "Цвет", value: "almond milk (бежевый)" },
+      { label: "Объём", value: "180 мл" },
+      { label: "Гарантийный срок", value: "12 месяцев с даты покупки" },
+      { label: "Тип сцеживания", value: "массаж, сцеживание, экспресс 2-в-1" },
+      { label: "Дисплей", value: "сенсорный LED-дисплей" },
+      { label: "Питание", value: "от аккумулятора" },
+      { label: "Тип молокоотсоса", value: "электрический" },
+      { label: "Функция памяти", value: "есть" },
+      { label: "Тип мотора", value: "двухфазный" },
+      { label: "Режимы работы", value: "3 режима, 9 уровней интенсивности" },
+      { label: "Мощность аккумулятора", value: "1200 мАч" },
+      { label: "Время автономной работы", value: "до 180 минут" },
+      { label: "Время зарядки", value: "2 часа" },
+      { label: "Количество сеансов сцеживания", value: "4–6" },
+      { label: "Срок службы", value: "3 года с даты изготовления" },
     ],
     category: "hit",
   },
@@ -28,8 +41,11 @@ export const products: Product[] = [
     id: "sterilizer",
     title: "Стерилизатор-подогреватель 5 в 1",
     shortDescription: "Стерилизация, подогрев, разморозка и приготовление прикорма",
+    // TODO(owner): цена указана в старых рублёвых цифрах прайса поставщика,
+    // переведена в Сом только по названию валюты — реальную цену в Сом нужно
+    // подтвердить (см. открытый вопрос №6 в TODO.md).
     price: 4144,
-    currency: "RUB",
+    currency: "KGS",
     images: ["/products/paomma-sterilizer-5v1.webp"],
     specs: [
       {
@@ -56,8 +72,11 @@ export const products: Product[] = [
     id: "bionic-pump",
     title: "Молокоотсос бионический «Свободные руки»",
     shortDescription: "4 режима, до 180 минут автономности, полностью автономная работа",
+    // TODO(owner): цена указана в старых рублёвых цифрах прайса поставщика,
+    // переведена в Сом только по названию валюты — реальную цену в Сом нужно
+    // подтвердить (см. открытый вопрос №6 в TODO.md).
     price: 4400,
-    currency: "RUB",
+    currency: "KGS",
     images: ["/products/paomma-molokootsos-bionic.webp"],
     specs: [
       { label: "Режимы", value: "Стимуляция → Массаж → Сцеживание → Бионический (3-я фаза)" },

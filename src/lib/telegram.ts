@@ -32,14 +32,14 @@ function buildMessage(order: OrderNotification): string {
   lines.push("");
   for (const item of order.items) {
     lines.push(
-      `— ${escapeHtml(item.title)} ×${item.qty} — ${(item.price * item.qty).toLocaleString("ru-RU")} ₽`,
+      `— ${escapeHtml(item.title)} ×${item.qty} — ${(item.price * item.qty).toLocaleString("ru-RU")} Сом`,
     );
   }
 
   if (order.discount > 0) {
-    lines.push(`Скидка за комплект: −${order.discount.toLocaleString("ru-RU")} ₽`);
+    lines.push(`Скидка за комплект: −${order.discount.toLocaleString("ru-RU")} Сом`);
   }
-  lines.push(`Итого: ${order.total.toLocaleString("ru-RU")} ₽`);
+  lines.push(`Итого: ${order.total.toLocaleString("ru-RU")} Сом`);
 
   if (order.comment) {
     lines.push("");

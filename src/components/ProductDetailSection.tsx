@@ -1,0 +1,78 @@
+"use client";
+
+import Link from "next/link";
+import type { Product } from "@/data/products";
+import { ProductImagePlaceholder } from "@/components/ProductImagePlaceholder";
+import { useCartStore } from "@/lib/cart-store";
+
+/**
+ * Единый формат "один блок — один товар" (баннер с одной стороны, описание
+ * с другой). Используется для каждого товара на странице; ссылка "Подробнее"
+ * ведёт на отдельную страницу товара /products/[id].
+ */
+export function ProductDetailSection({
+  product,
+  eyebrow,
+  heading,
+  imageSide = "left",
+}: {
+  product: Product;
+  eyebrow: string;
+  heading: string;
+  imageSide?: "left" | "right";
+}) {
+  const addItem = useCartStore((state) => state.addItem);
+
+  const image = <ProductImagePlaceholder title={product.title} />;
+
+  const info = (
+    <div>
+      <div className="section-eyebrow mb-3">
+        <span>{eyebrow}</span>
+      </div>
+      <h2 className="mb-2 text-3xl font-light tracking-tight">{heading}</h2>
+      <p className="mb-4 text-paomma-inkMuted">{product.shortDescription}</p>
+      <dl className="space-y-2 text-sm">
+        {product.specs.map((spec) => (
+          <div key={spec.label} className="flex gap-2">
+            <dt className="font-medium">{spec.label}:</dt>
+            <dd className="text-paomma-inkMuted">{spec.value}</dd>
+          </div>
+        ))}
+      </dl>
+      <p className="mt-4 text-lg font-semibold">{product.price.toLocaleString("ru-RU")} Сом</p>
+      <div className="mt-4 flex flex-wrap items-center gap-6">
+        <button
+          onClick={() => addItem(product.id)}
+          className="bg-paomma-accent px-6 py-2 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
+        >
+          В корзину
+        </button>
+        <Link
+          href={`/products/${product.id}`}
+          className="text-xs uppercase tracking-wide text-paomma-inkMuted underline"
+        >
+          Подробнее
+        </Link>
+      </div>
+    </div>
+  );
+
+  return (
+    <section className="mx-auto max-w-6xl px-4 py-16">
+      <div className="grid grid-cols-1 items-center gap-10 sm:grid-cols-2">
+        {imageSide === "left" ? (
+          <>
+            {image}
+            {info}
+          </>
+        ) : (
+          <>
+            {info}
+            {image}
+          </>
+        )}
+      </div>
+    </section>
+  );
+}

@@ -46,13 +46,15 @@ export function Quiz() {
           <div className="mx-auto max-w-sm border border-paomma-line p-8 text-center">
             <p className="text-sm text-paomma-inkMuted">Вам подойдёт:</p>
             <h3 className="mt-2 text-xl font-light tracking-tight">{product.title}</h3>
-            <p className="mt-2 text-lg font-semibold">{product.price.toLocaleString("ru-RU")} ₽</p>
+            <p className="mt-2 text-lg font-semibold">
+              {product.price.toLocaleString("ru-RU")} Сом
+            </p>
             <button
               onClick={() => {
                 addItem(product.id);
                 openOrderForm();
               }}
-              className="mt-6 w-full border border-paomma-ink py-3 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg"
+              className="mt-6 w-full bg-paomma-accent py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
             >
               Заказать
             </button>

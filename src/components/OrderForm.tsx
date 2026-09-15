@@ -283,14 +283,14 @@ export function OrderForm() {
             <div className="border-t border-paomma-line pt-3 text-sm">
               <div className="flex justify-between font-medium">
                 <span>Итого</span>
-                <span>{totals.total.toLocaleString("ru-RU")} ₽</span>
+                <span>{totals.total.toLocaleString("ru-RU")} Сом</span>
               </div>
             </div>
 
             <button
               type="submit"
               disabled={submitState === "submitting"}
-              className="border border-paomma-ink py-3 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-ink hover:text-paomma-bg disabled:opacity-60"
+              className="bg-paomma-accent py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark disabled:opacity-60"
             >
               {submitState === "submitting" ? "Отправляем..." : "Оформить заказ"}
             </button>

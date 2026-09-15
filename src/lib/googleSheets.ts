@@ -44,7 +44,7 @@ export async function appendOrderToSheet(order: OrderRecord): Promise<void> {
   const sheet = doc.sheetsByIndex[0];
 
   const itemsText = order.items
-    .map((item) => `${item.title} ×${item.qty} — ${item.price * item.qty} ₽`)
+    .map((item) => `${item.title} ×${item.qty} — ${item.price * item.qty} Сом`)
     .join("; ");
 
   await sheet.addRow({
