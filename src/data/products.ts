@@ -17,7 +17,7 @@ export const products: Product[] = [
     shortDescription: "Забота, которая подстраивается под ваш ритм жизни",
     price: 2700,
     currency: "KGS",
-    images: ["/products/paomma-molokootsos-electric.webp"],
+    images: ["/products/electric-pump-3v1.png"],
     specs: [
       { label: "Цвет", value: "almond milk (бежевый)" },
       { label: "Объём", value: "180 мл" },
@@ -46,7 +46,7 @@ export const products: Product[] = [
     // подтвердить (см. открытый вопрос №6 в TODO.md).
     price: 4144,
     currency: "KGS",
-    images: ["/products/paomma-sterilizer-5v1.webp"],
+    images: [], // TODO(owner): реального фото пока нет
     specs: [
       {
         label: "Функции",
@@ -77,7 +77,7 @@ export const products: Product[] = [
     // подтвердить (см. открытый вопрос №6 в TODO.md).
     price: 4400,
     currency: "KGS",
-    images: ["/products/paomma-molokootsos-bionic.webp"],
+    images: [], // TODO(owner): реального фото пока нет
     specs: [
       { label: "Режимы", value: "Стимуляция → Массаж → Сцеживание → Бионический (3-я фаза)" },
       { label: "Уровни интенсивности", value: "15" },

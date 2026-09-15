@@ -1,4 +1,3 @@
-import { Header } from "@/components/Header";
 import { Hero } from "@/components/Hero";
 import { ProductDetailSection } from "@/components/ProductDetailSection";
 import { LifestyleSection } from "@/components/LifestyleSection";
@@ -20,7 +19,6 @@ export default function HomePage() {
 
   return (
     <>
-      <Header />
       <Hero />
       {electricPump && (
         <ProductDetailSection

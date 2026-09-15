@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import type { Product } from "@/data/products";
-import { ProductImagePlaceholder } from "@/components/ProductImagePlaceholder";
+import { ProductImage } from "@/components/ProductImage";
 import { useCartStore } from "@/lib/cart-store";
 
 /**
@@ -23,7 +23,7 @@ export function ProductDetailSection({
 }) {
   const addItem = useCartStore((state) => state.addItem);
 
-  const image = <ProductImagePlaceholder title={product.title} />;
+  const image = <ProductImage product={product} />;
 
   const info = (
     <div>
@@ -50,7 +50,7 @@ export function ProductDetailSection({
         </button>
         <Link
           href={`/products/${product.id}`}
-          className="text-xs uppercase tracking-wide text-paomma-inkMuted underline"
+          className="rounded-xl bg-paomma-rose px-6 py-2 text-xs uppercase tracking-wide text-paomma-ink transition hover:bg-paomma-roseDark"
         >
           Подробнее
         </Link>

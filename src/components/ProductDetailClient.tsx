@@ -1,7 +1,7 @@
 "use client";
 
 import type { Product } from "@/data/products";
-import { ProductImagePlaceholder } from "@/components/ProductImagePlaceholder";
+import { ProductImage } from "@/components/ProductImage";
 import { useCartStore } from "@/lib/cart-store";
 
 export function ProductDetailClient({ product }: { product: Product }) {
@@ -9,7 +9,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
 
   return (
     <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
-      <ProductImagePlaceholder title={product.title} />
+      <ProductImage product={product} />
       <div>
         <h1 className="mb-2 text-3xl font-light tracking-tight">{product.title}</h1>
         <p className="mb-6 text-paomma-inkMuted">{product.shortDescription}</p>

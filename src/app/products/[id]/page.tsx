@@ -1,7 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import Link from "next/link";
-import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import { ProductDetailClient } from "@/components/ProductDetailClient";
 import { getProductById, products } from "@/data/products";
@@ -38,7 +37,6 @@ export default async function ProductPage({ params }: Props) {
 
   return (
     <>
-      <Header />
       <main className="mx-auto max-w-6xl px-4 py-16">
         <Link
           href="/"
