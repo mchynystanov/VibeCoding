@@ -6,10 +6,15 @@ import { ProductModes } from "@/components/ProductModes";
 import { ProductSpecsTable } from "@/components/ProductSpecsTable";
 import { ProductPackage } from "@/components/ProductPackage";
 import { ProductFaq } from "@/components/ProductFaq";
+import { ProductVideo } from "@/components/ProductVideo";
 import { useCartStore } from "@/lib/cart-store";
 
 export function ProductDetailClient({ product }: { product: Product }) {
   const addItem = useCartStore((state) => state.addItem);
+
+  if (product.videoId) {
+    return <ProductVideo videoId={product.videoId} instructionUrl={product.instructionUrl} />;
+  }
 
   return (
     <div>
