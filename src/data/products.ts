@@ -5,6 +5,11 @@ export type Product = {
   price: number;
   currency: "KGS"; // Открытый вопрос №6 из ТЗ решён владельцем: валюта — Сом (см. TODO.md)
   images: string[];
+  // Отдельные "чистые" фото товара (без вшитого маркетингового текста) для
+  // страницы /products/[id] — на ней рядом уже есть текстовые характеристики,
+  // и промо-баннер из `images` с теми же фактами, зашитыми в картинку,
+  // выглядел бы как повтор. Пока не заполнено — плейсхолдер до реальных фото.
+  detailImages?: string[];
   specs: { label: string; value: string }[];
   category: "hit" | "accessory";
   badge?: string;
