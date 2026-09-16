@@ -32,19 +32,15 @@ export async function POST(req: Request) {
     return NextResponse.json({ ok: false, error: "validation_failed" }, { status: 400 });
   }
 
-  let valid: boolean;
-  try {
-    valid = verifyCredentials(parsed.data.username, parsed.data.password);
-  } catch (err) {
-    console.error("[admin login] misconfigured:", err);
-    return NextResponse.json({ ok: false, error: "server_misconfigured" }, { status: 500 });
-  }
-
+  const valid = await verifyCredentials(parsed.data.username, parsed.data.password);
   if (!valid) {
     return NextResponse.json({ ok: false, error: "invalid_credentials" }, { status: 401 });
   }
 
   const token = await signSession();
+  if (!token) {
+    return NextResponse.json({ ok: false, error: "server_misconfigured" }, { status: 500 });
+  }
   const res = NextResponse.json({ ok: true });
   res.cookies.set(ADMIN_SESSION_COOKIE, token, {
     httpOnly: true,

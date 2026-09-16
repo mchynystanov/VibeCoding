@@ -1,14 +1,20 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { productOverrideSchema } from "@/lib/schemas";
-import { verifySession, ADMIN_SESSION_COOKIE } from "@/lib/adminAuth";
+import { verifySession, getAdminCredentials, ADMIN_SESSION_COOKIE } from "@/lib/adminAuth";
 import { setProductOverride } from "@/lib/productOverrides";
 
 export async function PATCH(req: Request) {
-  const cookieStore = await cookies();
-  const session = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
-  if (!(await verifySession(session))) {
-    return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
+  // Пока логин/пароль не заданы (первый заход) — /admin открыт без сессии,
+  // сохранение тоже должно работать. После setAdminCredentials() эта ветка
+  // больше не сработает — getAdminCredentials() всегда вернёт объект.
+  const creds = await getAdminCredentials();
+  if (creds) {
+    const cookieStore = await cookies();
+    const session = cookieStore.get(ADMIN_SESSION_COOKIE)?.value;
+    if (!(await verifySession(session))) {
+      return NextResponse.json({ ok: false, error: "unauthorized" }, { status: 401 });
+    }
   }
 
   let body: unknown;

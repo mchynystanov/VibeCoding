@@ -14,6 +14,10 @@ data/product-overrides.json
 # runtime data, not source, so it doesn't belong in git either.
 data/reviews.json
 
+# Admin panel login (hashed password + session secret), set from the
+# /admin first-run setup screen — never checked into git.
+data/admin-credentials.json
+
 # Build output
 dist/
 build/

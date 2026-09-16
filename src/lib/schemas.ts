@@ -64,3 +64,18 @@ export const reviewSchema = z.object({
 });
 
 export type ReviewInput = z.infer<typeof reviewSchema>;
+
+/** Тело запроса POST /api/admin/credentials — задать/сменить логин и пароль. */
+export const adminCredentialsSchema = z
+  .object({
+    username: z.string().min(1, "Введите логин"),
+    password: z.string().min(6, "Пароль — минимум 6 символов"),
+    confirmPassword: z.string(),
+    currentPassword: z.string().optional(),
+  })
+  .refine((data) => data.password === data.confirmPassword, {
+    message: "Пароли не совпадают",
+    path: ["confirmPassword"],
+  });
+
+export type AdminCredentialsInput = z.infer<typeof adminCredentialsSchema>;
