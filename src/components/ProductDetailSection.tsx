@@ -59,7 +59,7 @@ export function ProductDetailSection({
   );
 
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
+    <section className="mx-auto max-w-6xl px-4 py-10">
       <div className="grid grid-cols-1 items-center gap-10 sm:grid-cols-2">
         {imageSide === "left" ? (
           <>
