@@ -36,6 +36,7 @@ export async function PATCH(req: Request) {
     await setProductOverride(parsed.data.id, {
       price: parsed.data.price,
       inStock: parsed.data.inStock,
+      salePercent: parsed.data.salePercent,
     });
   } catch (err) {
     console.error("[admin products] failed to save override:", err);

@@ -10,9 +10,12 @@ import { ProductPackage } from "@/components/ProductPackage";
 import { ProductFaq } from "@/components/ProductFaq";
 import { ProductVideo } from "@/components/ProductVideo";
 import { useCartStore } from "@/lib/cart-store";
+import { getSalePrice } from "@/lib/pricing";
 
 export function ProductDetailClient({ product, reviews }: { product: Product; reviews: Review[] }) {
   const addItem = useCartStore((state) => state.addItem);
+  const salePrice = getSalePrice(product.price, product.salePercent);
+  const effectivePrice = salePrice ?? product.price;
 
   if (product.videoId) {
     return <ProductVideo videoId={product.videoId} instructionUrl={product.instructionUrl} />;
@@ -31,10 +34,24 @@ export function ProductDetailClient({ product, reviews }: { product: Product; re
               <span className="text-paomma-inkMuted">{product.color}</span>
             </p>
           )}
-          <p className="flex items-center gap-3">
-            <span className="text-2xl font-semibold">
-              {product.price.toLocaleString("ru-RU")} Сом
-            </span>
+          <p className="flex flex-wrap items-center gap-3">
+            {salePrice !== null ? (
+              <>
+                <span className="text-base text-paomma-inkMuted line-through">
+                  {product.price.toLocaleString("ru-RU")} Сом
+                </span>
+                <span className="text-3xl font-bold text-paomma-accent">
+                  {salePrice.toLocaleString("ru-RU")} Сом
+                </span>
+                <span className="rounded-full bg-paomma-accent px-2 py-0.5 text-xs font-medium uppercase tracking-wide text-white">
+                  −{product.salePercent}%
+                </span>
+              </>
+            ) : (
+              <span className="text-2xl font-semibold">
+                {product.price.toLocaleString("ru-RU")} Сом
+              </span>
+            )}
             {product.inStock === false ? (
               <span className="text-xs font-medium uppercase tracking-wide text-red-600">
                 Нет в наличии
@@ -46,7 +63,7 @@ export function ProductDetailClient({ product, reviews }: { product: Product; re
             )}
           </p>
           <button
-            onClick={() => addItem(product.id)}
+            onClick={() => addItem({ id: product.id, title: product.title, price: effectivePrice })}
             disabled={product.inStock === false}
             className="mt-6 rounded-full bg-paomma-accent px-8 py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark disabled:cursor-not-allowed disabled:bg-paomma-line disabled:text-paomma-inkMuted disabled:hover:bg-paomma-line"
           >

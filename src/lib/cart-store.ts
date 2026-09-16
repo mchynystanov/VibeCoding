@@ -2,14 +2,16 @@ import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { CartItem } from "@/lib/pricing";
 import { calculateTotals } from "@/lib/pricing";
-import { getProductById } from "@/data/products";
 import { trackEvent } from "@/lib/analytics";
 
 type CartState = {
   items: CartItem[];
   isOpen: boolean;
   isOrderFormOpen: boolean;
-  addItem: (productId: string) => void;
+  // Принимает уже готовую цену (с учётом наценки/скидки), а не только id —
+  // цена товара живёт на сервере (админка может её менять/уценять), поэтому
+  // клиентский стор больше не подставляет её сам из статического каталога.
+  addItem: (item: { id: string; title: string; price: number }) => void;
   removeItem: (productId: string) => void;
   setQty: (productId: string, qty: number) => void;
   clear: () => void;
@@ -26,25 +28,18 @@ export const useCartStore = create<CartState>()(
       isOpen: false,
       isOrderFormOpen: false,
 
-      addItem: (productId) =>
+      addItem: (item) =>
         set((state) => {
-          trackEvent("add_to_cart", { productId });
-          const existing = state.items.find((item) => item.id === productId);
+          trackEvent("add_to_cart", { productId: item.id });
+          const existing = state.items.find((i) => i.id === item.id);
           if (existing) {
             return {
-              items: state.items.map((item) =>
-                item.id === productId ? { ...item, qty: item.qty + 1 } : item,
-              ),
+              items: state.items.map((i) => (i.id === item.id ? { ...i, qty: i.qty + 1 } : i)),
               isOpen: true,
             };
           }
-          const product = getProductById(productId);
-          if (!product) return state;
           return {
-            items: [
-              ...state.items,
-              { id: product.id, title: product.title, price: product.price, qty: 1 },
-            ],
+            items: [...state.items, { id: item.id, title: item.title, price: item.price, qty: 1 }],
             isOpen: true,
           };
         }),

@@ -19,6 +19,16 @@ export type Totals = {
 };
 
 /**
+ * Цена товара с учётом распродажи (salePercent из админки), округлённая до
+ * целого сома. Возвращает null, если скидки нет — так вызывающий код может
+ * решить, показывать ли зачёркнутую старую цену.
+ */
+export function getSalePrice(price: number, salePercent: number | undefined): number | null {
+  if (!salePercent || salePercent <= 0) return null;
+  return Math.round(price * (1 - salePercent / 100));
+}
+
+/**
  * Скидка применяется, если в корзине одновременно есть любой молокоотсос
  * (electric-pump или bionic-pump) и стерилизатор (раздел 6 ТЗ).
  */
