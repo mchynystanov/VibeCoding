@@ -20,6 +20,7 @@ export default function HomePage() {
   return (
     <>
       <Hero />
+      <WhyPaomma />
       {electricPump && (
         <ProductDetailSection
           product={electricPump}
@@ -37,7 +38,6 @@ export default function HomePage() {
         />
       )}
       <LifestyleSection />
-      <WhyPaomma />
       {sterilizer && (
         <ProductDetailSection
           product={sterilizer}
