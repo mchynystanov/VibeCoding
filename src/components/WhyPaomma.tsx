@@ -22,10 +22,7 @@ export function WhyPaomma() {
   return (
     <section className="bg-paomma-surface">
       <div className="mx-auto max-w-6xl px-4 py-8">
-        <div className="section-eyebrow mb-3">
-          <span>Почему мы</span>
-        </div>
-        <h2 className="mb-8 text-3xl font-light tracking-tight">Почему Paomma</h2>
+        <h2 className="mb-4 text-3xl font-light tracking-tight">Почему Paomma</h2>
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-5">
           {REASONS.map((r) => (
             <div key={r.title}>
