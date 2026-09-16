@@ -1,17 +1,18 @@
-# Nginx reverse-proxy для Paomma Shop.
+# Nginx reverse-proxy для Paomma Shop — живёт на поддомене paomma.luvsbaby.club
+# (сам домен luvsbaby.club зарезервирован под будущую отдельную главную
+# страницу бренда — этот конфиг её не трогает).
 #
-# 1. Замените YOUR_DOMAIN на настоящий домен (в двух местах ниже).
-# 2. Скопируйте на сервер: /etc/nginx/sites-available/paomma
-# 3. Включите: sudo ln -s /etc/nginx/sites-available/paomma /etc/nginx/sites-enabled/
-# 4. Проверьте конфиг: sudo nginx -t
-# 5. Перезапустите: sudo systemctl reload nginx
-# 6. Выпустите SSL-сертификат (сам допишет HTTPS-блок и настроит редирект):
-#      sudo certbot --nginx -d YOUR_DOMAIN -d www.YOUR_DOMAIN
+# 1. Скопируйте на сервер: /etc/nginx/sites-available/paomma
+# 2. Включите: sudo ln -s /etc/nginx/sites-available/paomma /etc/nginx/sites-enabled/
+# 3. Проверьте конфиг: sudo nginx -t
+# 4. Перезапустите: sudo systemctl reload nginx
+# 5. Выпустите SSL-сертификат (сам допишет HTTPS-блок и настроит редирект):
+#      sudo certbot --nginx -d paomma.luvsbaby.club
 
 server {
     listen 80;
     listen [::]:80;
-    server_name YOUR_DOMAIN www.YOUR_DOMAIN;
+    server_name paomma.luvsbaby.club;
 
     location / {
         proxy_pass http://127.0.0.1:3000;
