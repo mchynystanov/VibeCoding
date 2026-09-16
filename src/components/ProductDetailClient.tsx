@@ -1,7 +1,8 @@
 "use client";
 
 import type { Product } from "@/data/products";
-import { ProductImage } from "@/components/ProductImage";
+import { ProductGallery } from "@/components/ProductGallery";
+import { ProductTabs } from "@/components/ProductTabs";
 import { ProductModes } from "@/components/ProductModes";
 import { ProductSpecsTable } from "@/components/ProductSpecsTable";
 import { ProductPackage } from "@/components/ProductPackage";
@@ -18,28 +19,18 @@ export function ProductDetailClient({ product }: { product: Product }) {
 
   return (
     <div>
-      <div
-        className={
-          product.detailImages?.length ? "grid grid-cols-1 gap-10 sm:grid-cols-2" : "max-w-2xl"
-        }
-      >
-        {product.detailImages?.length ? (
-          <ProductImage product={{ ...product, images: product.detailImages }} />
-        ) : null}
+      <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
+        <ProductGallery product={product} />
         <div>
           <h1 className="mb-2 text-3xl font-light tracking-tight">{product.title}</h1>
-          <p className="mb-6 text-paomma-inkMuted">{product.shortDescription}</p>
-          {!product.fullSpecsTable && (
-            <dl className="space-y-2 text-sm">
-              {product.specs.map((spec) => (
-                <div key={spec.label} className="flex gap-2">
-                  <dt className="font-medium">{spec.label}:</dt>
-                  <dd className="text-paomma-inkMuted">{spec.value}</dd>
-                </div>
-              ))}
-            </dl>
+          <p className="mb-4 text-paomma-inkMuted">{product.shortDescription}</p>
+          {product.color && (
+            <p className="mb-4 text-sm">
+              <span className="font-medium">Цвет:</span>{" "}
+              <span className="text-paomma-inkMuted">{product.color}</span>
+            </p>
           )}
-          <p className="mt-6 flex items-center gap-3">
+          <p className="flex items-center gap-3">
             <span className="text-2xl font-semibold">
               {product.price.toLocaleString("ru-RU")} Сом
             </span>
@@ -62,6 +53,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
           </button>
         </div>
       </div>
+      <ProductTabs product={product} />
       {product.modes && (
         <ProductModes modes={product.modes} intensityLevels={product.intensityLevels} />
       )}
