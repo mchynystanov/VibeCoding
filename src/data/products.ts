@@ -151,7 +151,7 @@ export const products: Product[] = [
     // подтвердить (см. открытый вопрос №6 в TODO.md).
     price: 4144,
     currency: "KGS",
-    images: [], // TODO(owner): реального фото пока нет
+    images: ["/products/sterilizer.png"],
     specs: [
       {
         label: "Функции",
