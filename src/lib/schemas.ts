@@ -44,3 +44,12 @@ export const orderSchema = z
   });
 
 export type OrderInput = z.infer<typeof orderSchema>;
+
+/** Тело запроса PATCH /api/admin/products — правка цены/наличия из /admin. */
+export const productOverrideSchema = z.object({
+  id: z.string().min(1),
+  price: z.number().positive(),
+  inStock: z.boolean(),
+});
+
+export type ProductOverrideInput = z.infer<typeof productOverrideSchema>;
