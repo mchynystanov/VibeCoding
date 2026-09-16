@@ -1,0 +1,5 @@
+{
+  "electric-pump": { "price": 2700, "inStock": true },
+  "bionic-pump": { "price": 4400, "inStock": true },
+  "sterilizer": { "price": 4144, "inStock": true }
+}

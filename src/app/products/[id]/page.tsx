@@ -3,23 +3,24 @@ import { notFound } from "next/navigation";
 import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { ProductDetailClient } from "@/components/ProductDetailClient";
-import { getProductById, products } from "@/data/products";
+import { getProductById } from "@/lib/productOverrides";
 
 // TODO(owner): владелец пришлёт ссылку на образец страницы товара —
 // текущая вёрстка временная (переиспользует стиль остального сайта),
 // нужно будет привести к присланному образцу.
 
+// force-dynamic (и без generateStaticParams — иначе Next всё равно
+// пререндерит эти 3 id статически при сборке): цена/наличие можно менять
+// из /admin без пересборки сайта, см. src/lib/productOverrides.ts.
+export const dynamic = "force-dynamic";
+
 type Props = {
   params: Promise<{ id: string }>;
 };
 
-export function generateStaticParams() {
-  return products.map((product) => ({ id: product.id }));
-}
-
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await getProductById(id);
   if (!product) return {};
   return {
     title: `${product.title} — Paomma`,
@@ -29,7 +30,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
 
 export default async function ProductPage({ params }: Props) {
   const { id } = await params;
-  const product = getProductById(id);
+  const product = await getProductById(id);
 
   if (!product) {
     notFound();

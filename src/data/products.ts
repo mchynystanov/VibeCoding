@@ -13,6 +13,9 @@ export type Product = {
   specs: { label: string; value: string }[];
   category: "hit" | "accessory";
   badge?: string;
+  // Цена и наличие можно переопределить из админки (/admin) — см.
+  // src/lib/productOverrides.ts. Отсутствие поля означает "в наличии".
+  inStock?: boolean;
   // Необязательные поля для расширенной страницы товара (образец —
   // paomma.ru/catalog/molokootsos/) — заполняются только когда есть
   // реальные данные для конкретного товара.

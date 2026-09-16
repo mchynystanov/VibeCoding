@@ -8,15 +8,21 @@ import { Quiz } from "@/components/Quiz";
 import { Faq } from "@/components/Faq";
 import { DeliveryAndOrder } from "@/components/DeliveryAndOrder";
 import { Footer } from "@/components/Footer";
-import { getProductById } from "@/data/products";
+import { getProductById } from "@/lib/productOverrides";
 
 // Порядок блоков фиксирован разделом 4 ТЗ, но формат каталога изменён по
 // запросу владельца: вместо сетки "Хиты продаж" — один блок на один товар
 // (баннер + описание), см. ProductDetailSection.
-export default function HomePage() {
-  const electricPump = getProductById("electric-pump");
-  const bionicPump = getProductById("bionic-pump");
-  const sterilizer = getProductById("sterilizer");
+// force-dynamic: цена/наличие можно менять из /admin без пересборки сайта —
+// см. src/lib/productOverrides.ts.
+export const dynamic = "force-dynamic";
+
+export default async function HomePage() {
+  const [electricPump, bionicPump, sterilizer] = await Promise.all([
+    getProductById("electric-pump"),
+    getProductById("bionic-pump"),
+    getProductById("sterilizer"),
+  ]);
 
   return (
     <>

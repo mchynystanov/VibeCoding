@@ -6,6 +6,10 @@ node_modules/
 .env.local
 .env.*.local
 
+# Runtime data written by the admin panel (price/stock overrides) —
+# lives on the server's disk, not in git; see data/product-overrides.example.json
+data/product-overrides.json
+
 # Build output
 dist/
 build/
