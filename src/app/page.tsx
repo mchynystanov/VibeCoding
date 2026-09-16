@@ -42,7 +42,7 @@ export default function HomePage() {
           product={bionicPump}
           eyebrow="Хит продаж"
           eyebrowClassName="font-bold text-red-600"
-          heading="Свободные руки"
+          heading="Бионический молокоотсос «Свободные руки»"
           imageSide="left"
         />
       )}
