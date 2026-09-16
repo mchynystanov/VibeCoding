@@ -6,12 +6,12 @@ const GUIDE = [
 
 export function HowToChoose() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
+    <div>
       <div className="section-eyebrow mb-3">
         <span>Гид</span>
       </div>
-      <h2 className="mb-6 text-3xl font-light tracking-tight">Как выбрать</h2>
-      <p className="mb-4 text-sm text-paomma-inkMuted">Вам подходит:</p>
+      <h2 className="mb-4 text-2xl font-light tracking-tight">Как выбрать</h2>
+      <p className="mb-3 text-sm text-paomma-inkMuted">Вам подходит:</p>
       <ul className="space-y-2 text-sm">
         {GUIDE.map((g) => (
           <li key={g.title}>
@@ -19,6 +19,6 @@ export function HowToChoose() {
           </li>
         ))}
       </ul>
-    </section>
+    </div>
   );
 }
