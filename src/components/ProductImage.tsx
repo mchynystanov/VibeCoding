@@ -14,7 +14,7 @@ export function ProductImage({ product }: { product: Product }) {
   }
 
   return (
-    <div className="relative aspect-square w-full bg-paomma-surface">
+    <div className="relative aspect-square w-full overflow-hidden rounded-2xl bg-paomma-surface">
       <Image
         src={src}
         alt={product.title}
