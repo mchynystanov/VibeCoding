@@ -62,9 +62,11 @@
   `Header.tsx` наложен через `mix-blend-multiply`, чтобы белый фон файла не
   отличался от фона сайта.
 
-- **Реальные фото товаров** (700×700 WebP) не предоставлены — используется
-  цветной плейсхолдер (`src/components/ProductImagePlaceholder.tsx`) вместо
-  `next/image`. Заменить, как только появятся файлы в `public/products/`.
+- **Реальные фото товаров**: `electric-pump` и `bionic-pump` (`public/products/bionic-pump.webp`,
+  реальный промо-баннер от владельца) теперь есть. `sterilizer` — фото пока
+  не предоставлено, используется цветной плейсхолдер
+  (`src/components/ProductImagePlaceholder.tsx`). Заменить, как появится
+  файл в `public/products/`.
 - **`electric-pump` на странице `/products/electric-pump`**: промо-баннер
   `electric-pump-3v1.png` (с вшитым текстом/иконками) используется только на
   главной (`ProductDetailSection`) — на детальной странице он дублировал

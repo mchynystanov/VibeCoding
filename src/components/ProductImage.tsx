@@ -14,13 +14,13 @@ export function ProductImage({ product }: { product: Product }) {
   }
 
   return (
-    <div className="relative aspect-square w-full">
+    <div className="relative aspect-square w-full bg-paomma-surface">
       <Image
         src={src}
         alt={product.title}
         fill
         sizes="(min-width: 640px) 50vw, 100vw"
-        className="object-cover"
+        className="object-contain"
       />
     </div>
   );
