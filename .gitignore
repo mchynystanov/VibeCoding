@@ -10,6 +10,10 @@ node_modules/
 # lives on the server's disk, not in git; see data/product-overrides.example.json
 data/product-overrides.json
 
+# Real customer reviews submitted through the site — user-generated
+# runtime data, not source, so it doesn't belong in git either.
+data/reviews.json
+
 # Build output
 dist/
 build/

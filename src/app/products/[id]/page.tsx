@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Footer } from "@/components/Footer";
 import { ProductDetailClient } from "@/components/ProductDetailClient";
 import { getProductById } from "@/lib/productOverrides";
+import { getReviews } from "@/lib/reviews";
 
 // TODO(owner): владелец пришлёт ссылку на образец страницы товара —
 // текущая вёрстка временная (переиспользует стиль остального сайта),
@@ -36,6 +37,8 @@ export default async function ProductPage({ params }: Props) {
     notFound();
   }
 
+  const reviews = await getReviews(id);
+
   return (
     <>
       <main className="mx-auto max-w-6xl px-4 py-16">
@@ -45,7 +48,7 @@ export default async function ProductPage({ params }: Props) {
         >
           ← На главную
         </Link>
-        <ProductDetailClient product={product} />
+        <ProductDetailClient product={product} reviews={reviews} />
       </main>
       <Footer />
     </>

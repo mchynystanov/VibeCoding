@@ -53,3 +53,14 @@ export const productOverrideSchema = z.object({
 });
 
 export type ProductOverrideInput = z.infer<typeof productOverrideSchema>;
+
+/** Тело запроса POST /api/reviews — отзыв покупателя на странице товара. */
+export const reviewSchema = z.object({
+  productId: z.string().min(1),
+  name: z.string().min(2, "Введите имя (минимум 2 символа)").max(80),
+  rating: z.number().int().min(1).max(5),
+  text: z.string().min(10, "Отзыв слишком короткий (минимум 10 символов)").max(1000),
+  honeypot: z.string().optional().default(""),
+});
+
+export type ReviewInput = z.infer<typeof reviewSchema>;

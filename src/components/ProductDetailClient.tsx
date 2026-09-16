@@ -1,6 +1,7 @@
 "use client";
 
 import type { Product } from "@/data/products";
+import type { Review } from "@/lib/reviews";
 import { ProductGallery } from "@/components/ProductGallery";
 import { ProductTabs } from "@/components/ProductTabs";
 import { ProductModes } from "@/components/ProductModes";
@@ -10,7 +11,7 @@ import { ProductFaq } from "@/components/ProductFaq";
 import { ProductVideo } from "@/components/ProductVideo";
 import { useCartStore } from "@/lib/cart-store";
 
-export function ProductDetailClient({ product }: { product: Product }) {
+export function ProductDetailClient({ product, reviews }: { product: Product; reviews: Review[] }) {
   const addItem = useCartStore((state) => state.addItem);
 
   if (product.videoId) {
@@ -53,7 +54,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
           </button>
         </div>
       </div>
-      <ProductTabs product={product} />
+      <ProductTabs product={product} reviews={reviews} />
       {product.modes && (
         <ProductModes modes={product.modes} intensityLevels={product.intensityLevels} />
       )}

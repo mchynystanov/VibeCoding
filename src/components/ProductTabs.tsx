@@ -2,6 +2,8 @@
 
 import { useState } from "react";
 import type { Product } from "@/data/products";
+import type { Review } from "@/lib/reviews";
+import { ProductReviews } from "@/components/ProductReviews";
 
 type TabKey = "about" | "specs" | "instructions" | "reviews";
 
@@ -12,7 +14,7 @@ const TAB_LABELS: Record<TabKey, string> = {
   reviews: "Отзывы",
 };
 
-export function ProductTabs({ product }: { product: Product }) {
+export function ProductTabs({ product, reviews }: { product: Product; reviews: Review[] }) {
   const [active, setActive] = useState<TabKey>("about");
 
   return (
@@ -72,10 +74,10 @@ export function ProductTabs({ product }: { product: Product }) {
           ))}
 
         {active === "reviews" && (
-          <div className="space-y-3 text-sm text-paomma-inkMuted">
-            <p>Отзывов о покупке в нашем магазине пока нет — станьте первым.</p>
+          <div>
+            <ProductReviews productId={product.id} initialReviews={reviews} />
             {product.externalReviews && (
-              <p>
+              <p className="mt-6 border-t border-paomma-line pt-4 text-sm text-paomma-inkMuted">
                 {product.externalReviews.note} —{" "}
                 <a
                   href={product.externalReviews.url}
