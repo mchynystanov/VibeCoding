@@ -182,7 +182,7 @@ export const products: Product[] = [
     // подтвердить (см. открытый вопрос №6 в TODO.md).
     price: 4400,
     currency: "KGS",
-    images: ["/products/bionic-pump.webp"],
+    images: ["/products/bionic-pump-banner.png"],
     specs: [
       { label: "Режимы", value: "Стимуляция → Массаж → Сцеживание → Бионический (3-я фаза)" },
       { label: "Уровни интенсивности", value: "15" },

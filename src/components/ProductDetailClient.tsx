@@ -39,7 +39,14 @@ export function ProductDetailClient({ product }: { product: Product }) {
               ))}
             </dl>
           )}
-          <p className="mt-6 text-2xl font-semibold">{product.price.toLocaleString("ru-RU")} Сом</p>
+          <p className="mt-6 flex items-center gap-3">
+            <span className="text-2xl font-semibold">
+              {product.price.toLocaleString("ru-RU")} Сом
+            </span>
+            <span className="text-xs font-medium uppercase tracking-wide text-green-600">
+              В наличии
+            </span>
+          </p>
           <button
             onClick={() => addItem(product.id)}
             className="mt-6 bg-paomma-accent px-8 py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
