@@ -31,6 +31,7 @@ export default function HomePage() {
           imageSide="left"
         />
       )}
+      <LifestyleSection />
       {bionicPump && (
         <ProductDetailSection
           product={bionicPump}
@@ -39,7 +40,6 @@ export default function HomePage() {
           imageSide="left"
         />
       )}
-      <LifestyleSection />
       {sterilizer && (
         <ProductDetailSection
           product={sterilizer}
