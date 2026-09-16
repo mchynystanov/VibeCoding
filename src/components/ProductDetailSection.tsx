@@ -44,14 +44,21 @@ export function ProductDetailSection({
       </dl>
       <p className="mt-4 flex items-center gap-3">
         <span className="text-lg font-semibold">{product.price.toLocaleString("ru-RU")} Сом</span>
-        <span className="text-xs font-medium uppercase tracking-wide text-green-600">
-          В наличии
-        </span>
+        {product.inStock === false ? (
+          <span className="text-xs font-medium uppercase tracking-wide text-red-600">
+            Нет в наличии
+          </span>
+        ) : (
+          <span className="text-xs font-medium uppercase tracking-wide text-green-600">
+            В наличии
+          </span>
+        )}
       </p>
       <div className="mt-4 flex flex-wrap items-center gap-6">
         <button
           onClick={() => addItem(product.id)}
-          className="rounded-full bg-paomma-accent px-6 py-2 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
+          disabled={product.inStock === false}
+          className="rounded-full bg-paomma-accent px-6 py-2 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark disabled:cursor-not-allowed disabled:bg-paomma-line disabled:text-paomma-inkMuted disabled:hover:bg-paomma-line"
         >
           В корзину
         </button>

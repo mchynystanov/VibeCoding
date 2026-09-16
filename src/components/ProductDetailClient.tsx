@@ -43,13 +43,20 @@ export function ProductDetailClient({ product }: { product: Product }) {
             <span className="text-2xl font-semibold">
               {product.price.toLocaleString("ru-RU")} Сом
             </span>
-            <span className="text-xs font-medium uppercase tracking-wide text-green-600">
-              В наличии
-            </span>
+            {product.inStock === false ? (
+              <span className="text-xs font-medium uppercase tracking-wide text-red-600">
+                Нет в наличии
+              </span>
+            ) : (
+              <span className="text-xs font-medium uppercase tracking-wide text-green-600">
+                В наличии
+              </span>
+            )}
           </p>
           <button
             onClick={() => addItem(product.id)}
-            className="mt-6 rounded-full bg-paomma-accent px-8 py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
+            disabled={product.inStock === false}
+            className="mt-6 rounded-full bg-paomma-accent px-8 py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark disabled:cursor-not-allowed disabled:bg-paomma-line disabled:text-paomma-inkMuted disabled:hover:bg-paomma-line"
           >
             В корзину
           </button>
