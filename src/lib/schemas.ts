@@ -67,6 +67,12 @@ export const reviewSchema = z.object({
   honeypot: z.string().optional().default(""),
 });
 
+/** Тело запроса DELETE /api/admin/reviews — удаление отзыва (модерация из /admin). */
+export const deleteReviewSchema = z.object({
+  productId: z.string().min(1),
+  reviewId: z.string().min(1),
+});
+
 export type ReviewInput = z.infer<typeof reviewSchema>;
 
 /** Тело запроса POST /api/admin/credentials — задать/сменить логин и пароль. */

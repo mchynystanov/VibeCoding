@@ -23,9 +23,19 @@ async function readAll(): Promise<ReviewsByProduct> {
   }
 }
 
+async function writeAll(all: ReviewsByProduct): Promise<void> {
+  await mkdir(path.dirname(reviewsPath), { recursive: true });
+  await writeFile(reviewsPath, JSON.stringify(all, null, 2) + "\n", "utf-8");
+}
+
 export async function getReviews(productId: string): Promise<Review[]> {
   const all = await readAll();
   return all[productId] ?? [];
+}
+
+/** Все отзывы по всем товарам сразу — для модерации в /admin. */
+export async function getAllReviews(): Promise<ReviewsByProduct> {
+  return readAll();
 }
 
 export async function addReview(
@@ -41,7 +51,13 @@ export async function addReview(
     createdAt: new Date().toISOString(),
   };
   all[productId] = [review, ...(all[productId] ?? [])];
-  await mkdir(path.dirname(reviewsPath), { recursive: true });
-  await writeFile(reviewsPath, JSON.stringify(all, null, 2) + "\n", "utf-8");
+  await writeAll(all);
   return review;
+}
+
+/** Удаляет отзыв (модерация из /admin) — например, спам или неадекватный отзыв. */
+export async function deleteReview(productId: string, reviewId: string): Promise<void> {
+  const all = await readAll();
+  all[productId] = (all[productId] ?? []).filter((r) => r.id !== reviewId);
+  await writeAll(all);
 }

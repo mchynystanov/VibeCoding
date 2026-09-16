@@ -2,7 +2,9 @@ import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import { verifySession, getAdminCredentials, ADMIN_SESSION_COOKIE } from "@/lib/adminAuth";
 import { getProducts } from "@/lib/productOverrides";
+import { getAllReviews } from "@/lib/reviews";
 import { AdminProductForm } from "@/app/admin/AdminProductForm";
+import { AdminReviews } from "@/app/admin/AdminReviews";
 import { CredentialsForm } from "@/app/admin/CredentialsForm";
 import { LogoutButton } from "@/app/admin/LogoutButton";
 
@@ -23,6 +25,12 @@ export default async function AdminPage() {
   // предлагаем его задать ниже (CredentialsForm).
 
   const products = await getProducts();
+  const allReviews = await getAllReviews();
+  const reviewSections = products.map((product) => ({
+    productId: product.id,
+    title: product.title,
+    reviews: allReviews[product.id] ?? [],
+  }));
 
   return (
     <main className="mx-auto max-w-3xl px-4 py-16">
@@ -46,6 +54,10 @@ export default async function AdminPage() {
         {products.map((product) => (
           <AdminProductForm key={product.id} product={product} />
         ))}
+      </div>
+
+      <div className="mt-10">
+        <AdminReviews sections={reviewSections} />
       </div>
 
       {creds && (
