@@ -72,9 +72,22 @@ export function ProductTabs({ product }: { product: Product }) {
           ))}
 
         {active === "reviews" && (
-          <p className="text-sm text-paomma-inkMuted">
-            Отзывов пока нет — станьте первым, кто оставит отзыв после покупки.
-          </p>
+          <div className="space-y-3 text-sm text-paomma-inkMuted">
+            <p>Отзывов о покупке в нашем магазине пока нет — станьте первым.</p>
+            {product.externalReviews && (
+              <p>
+                {product.externalReviews.note} —{" "}
+                <a
+                  href={product.externalReviews.url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline hover:text-paomma-ink"
+                >
+                  читать отзывы на paomma.ru
+                </a>
+              </p>
+            )}
+          </div>
         )}
       </div>
     </div>

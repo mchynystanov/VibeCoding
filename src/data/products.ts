@@ -35,6 +35,9 @@ export type Product = {
   aboutText?: string;
   usageInstructions?: string[];
   color?: string;
+  // Честная ссылка-цитата на реальные отзывы того же товара на другом
+  // (официальном) сайте Paomma — вместо переноса чужих отзывов как своих.
+  externalReviews?: { url: string; note: string };
 };
 
 export const products: Product[] = [
@@ -215,6 +218,10 @@ export const products: Product[] = [
       { label: "Деталей для сборки и мытья", value: "5" },
     ],
     color: "almond milk",
+    externalReviews: {
+      url: "https://shop.paomma.ru/catalog/molokootsosy/bionic-4-in-1",
+      note: "Товар высоко оценён покупателями на официальном сайте Paomma (194 отзыва, 5.0)",
+    },
     aboutText:
       "Помогает извлечь «заднее», самое питательное молоко, максимально имитирует естественное сосание ребёнка, поддерживает оптимальную выработку молока. Бережное и глубокое сцеживание — профилактика нагрубания и лактостаза.",
     usageInstructions: [
