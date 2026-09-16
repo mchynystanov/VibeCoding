@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Первоначальная настройка чистого Ubuntu 22.04 VPS для Paomma Shop.
+# Первоначальная настройка чистого Ubuntu 22.04/24.04 VPS для Paomma Shop.
 # Запускать один раз на новом сервере (через SSH, от пользователя с sudo).
 #
 #   bash setup-server.sh
