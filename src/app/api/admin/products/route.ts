@@ -37,6 +37,7 @@ export async function PATCH(req: Request) {
       price: parsed.data.price,
       inStock: parsed.data.inStock,
       salePercent: parsed.data.salePercent,
+      saleEndsAt: parsed.data.saleEndsAt || undefined,
     });
   } catch (err) {
     console.error("[admin products] failed to save override:", err);

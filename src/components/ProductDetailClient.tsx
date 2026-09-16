@@ -11,10 +11,11 @@ import { ProductFaq } from "@/components/ProductFaq";
 import { ProductVideo } from "@/components/ProductVideo";
 import { useCartStore } from "@/lib/cart-store";
 import { getSalePrice } from "@/lib/pricing";
+import { SaleCountdown } from "@/components/SaleCountdown";
 
 export function ProductDetailClient({ product, reviews }: { product: Product; reviews: Review[] }) {
   const addItem = useCartStore((state) => state.addItem);
-  const salePrice = getSalePrice(product.price, product.salePercent);
+  const salePrice = getSalePrice(product.price, product.salePercent, product.saleEndsAt);
   const effectivePrice = salePrice ?? product.price;
 
   if (product.videoId) {
@@ -62,6 +63,11 @@ export function ProductDetailClient({ product, reviews }: { product: Product; re
               </span>
             )}
           </p>
+          {salePrice !== null && product.saleEndsAt && (
+            <p className="mt-1">
+              <SaleCountdown endsAt={product.saleEndsAt} />
+            </p>
+          )}
           <button
             onClick={() => addItem({ id: product.id, title: product.title, price: effectivePrice })}
             disabled={product.inStock === false}

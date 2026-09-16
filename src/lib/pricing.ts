@@ -19,13 +19,31 @@ export type Totals = {
 };
 
 /**
- * Цена товара с учётом распродажи (salePercent из админки), округлённая до
- * целого сома. Возвращает null, если скидки нет — так вызывающий код может
- * решить, показывать ли зачёркнутую старую цену.
+ * Распродажа активна, если задан процент скидки и (дата окончания не задана
+ * ИЛИ ещё не наступила). Как только saleEndsAt проходит, скидка перестаёт
+ * действовать сама — даже если salePercent в файле всё ещё > 0.
  */
-export function getSalePrice(price: number, salePercent: number | undefined): number | null {
-  if (!salePercent || salePercent <= 0) return null;
-  return Math.round(price * (1 - salePercent / 100));
+export function isSaleActive(
+  salePercent: number | undefined,
+  saleEndsAt: string | undefined,
+): boolean {
+  if (!salePercent || salePercent <= 0) return false;
+  if (saleEndsAt && new Date(saleEndsAt).getTime() <= Date.now()) return false;
+  return true;
+}
+
+/**
+ * Цена товара с учётом активной распродажи, округлённая до целого сома.
+ * Возвращает null, если скидки нет (или она уже закончилась) — так
+ * вызывающий код может решить, показывать ли зачёркнутую старую цену.
+ */
+export function getSalePrice(
+  price: number,
+  salePercent: number | undefined,
+  saleEndsAt?: string,
+): number | null {
+  if (!isSaleActive(salePercent, saleEndsAt)) return null;
+  return Math.round(price * (1 - (salePercent as number) / 100));
 }
 
 /**

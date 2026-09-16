@@ -4,7 +4,12 @@ import { products, type Product } from "@/data/products";
 
 const overridesPath = path.join(process.cwd(), "data", "product-overrides.json");
 
-type Override = { price?: number; inStock?: boolean; salePercent?: number };
+type Override = {
+  price?: number;
+  inStock?: boolean;
+  salePercent?: number;
+  saleEndsAt?: string;
+};
 type Overrides = Record<string, Override>;
 
 async function readOverrides(): Promise<Overrides> {
@@ -25,6 +30,7 @@ function applyOverride(product: Product, overrides: Overrides): Product {
     price: o?.price ?? product.price,
     inStock: o?.inStock ?? product.inStock ?? true,
     salePercent: o?.salePercent ?? product.salePercent ?? 0,
+    saleEndsAt: "saleEndsAt" in (o ?? {}) ? o?.saleEndsAt : product.saleEndsAt,
   };
 }
 

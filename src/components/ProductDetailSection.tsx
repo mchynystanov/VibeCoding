@@ -5,6 +5,7 @@ import type { Product } from "@/data/products";
 import { ProductImage } from "@/components/ProductImage";
 import { useCartStore } from "@/lib/cart-store";
 import { getSalePrice } from "@/lib/pricing";
+import { SaleCountdown } from "@/components/SaleCountdown";
 
 /**
  * Единый формат "один блок — один товар" (баннер с одной стороны, описание
@@ -25,7 +26,7 @@ export function ProductDetailSection({
   imageSide?: "left" | "right";
 }) {
   const addItem = useCartStore((state) => state.addItem);
-  const salePrice = getSalePrice(product.price, product.salePercent);
+  const salePrice = getSalePrice(product.price, product.salePercent, product.saleEndsAt);
   const effectivePrice = salePrice ?? product.price;
 
   const image = <ProductImage product={product} />;
@@ -73,6 +74,11 @@ export function ProductDetailSection({
           </span>
         )}
       </p>
+      {salePrice !== null && product.saleEndsAt && (
+        <p className="mt-1">
+          <SaleCountdown endsAt={product.saleEndsAt} />
+        </p>
+      )}
       <div className="mt-4 flex flex-wrap items-center gap-6">
         <button
           onClick={() => addItem({ id: product.id, title: product.title, price: effectivePrice })}

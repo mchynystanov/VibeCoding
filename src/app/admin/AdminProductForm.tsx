@@ -2,15 +2,25 @@
 
 import { useState } from "react";
 import type { Product } from "@/data/products";
-import { getSalePrice } from "@/lib/pricing";
+import { getSalePrice, isSaleActive } from "@/lib/pricing";
+
+function toDatetimeLocalValue(iso: string | undefined): string {
+  if (!iso) return "";
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return "";
+  const pad = (n: number) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
+}
 
 export function AdminProductForm({ product }: { product: Product }) {
   const [price, setPrice] = useState(product.price);
   const [inStock, setInStock] = useState(product.inStock !== false);
   const [salePercent, setSalePercent] = useState(product.salePercent ?? 0);
+  const [saleEndsAt, setSaleEndsAt] = useState(toDatetimeLocalValue(product.saleEndsAt));
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
 
-  const salePrice = getSalePrice(price, salePercent);
+  const salePrice = getSalePrice(price, salePercent, saleEndsAt || undefined);
+  const saleExpired = salePercent > 0 && !isSaleActive(salePercent, saleEndsAt || undefined);
 
   async function handleSave() {
     setStatus("saving");
@@ -18,7 +28,7 @@ export function AdminProductForm({ product }: { product: Product }) {
       const res = await fetch("/api/admin/products", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: product.id, price, inStock, salePercent }),
+        body: JSON.stringify({ id: product.id, price, inStock, salePercent, saleEndsAt }),
       });
       setStatus(res.ok ? "saved" : "error");
     } catch {
@@ -51,12 +61,28 @@ export function AdminProductForm({ product }: { product: Product }) {
           className="mt-1 block w-full border border-paomma-line px-3 py-2"
         />
       </label>
+      <label className="mb-4 block text-sm">
+        Распродажа до (необязательно — иначе идёт, пока не выключат вручную)
+        <input
+          type="datetime-local"
+          value={saleEndsAt}
+          onChange={(e) => setSaleEndsAt(e.target.value)}
+          className="mt-1 block w-full border border-paomma-line px-3 py-2"
+        />
+      </label>
+
       {salePrice !== null && (
         <p className="mb-4 text-sm text-paomma-inkMuted">
           Покажется как: <span className="line-through">{price.toLocaleString("ru-RU")} Сом</span>{" "}
           <span className="font-semibold text-paomma-accent">
             {salePrice.toLocaleString("ru-RU")} Сом
           </span>
+        </p>
+      )}
+      {saleExpired && (
+        <p className="mb-4 text-sm text-red-600">
+          Дата окончания уже прошла — скидка на сайте не показывается. Продлите дату или обнулите
+          процент скидки.
         </p>
       )}
 

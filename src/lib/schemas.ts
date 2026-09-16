@@ -51,6 +51,8 @@ export const productOverrideSchema = z.object({
   price: z.number().positive(),
   inStock: z.boolean(),
   salePercent: z.number().min(0).max(90).default(0),
+  // Пустая строка = без даты окончания (распродажа идёт, пока не выключат вручную).
+  saleEndsAt: z.string().optional(),
 });
 
 export type ProductOverrideInput = z.infer<typeof productOverrideSchema>;

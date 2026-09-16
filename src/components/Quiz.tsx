@@ -7,6 +7,7 @@ import type { Product } from "@/data/products";
 import { getSalePrice } from "@/lib/pricing";
 import { useCartStore } from "@/lib/cart-store";
 import { trackEvent } from "@/lib/analytics";
+import { SaleCountdown } from "@/components/SaleCountdown";
 
 const STEPS: (keyof QuizAnswers)[] = ["need", "frequency", "handsFree"];
 
@@ -54,7 +55,9 @@ export function Quiz() {
   }, [isDone]);
 
   if (isDone) {
-    const salePrice = product ? getSalePrice(product.price, product.salePercent) : null;
+    const salePrice = product
+      ? getSalePrice(product.price, product.salePercent, product.saleEndsAt)
+      : null;
     const effectivePrice = product ? (salePrice ?? product.price) : 0;
 
     return (
@@ -76,6 +79,11 @@ export function Quiz() {
             ) : (
               <p className="mt-2 text-lg font-semibold">
                 {product.price.toLocaleString("ru-RU")} Сом
+              </p>
+            )}
+            {salePrice !== null && product.saleEndsAt && (
+              <p className="mt-1">
+                <SaleCountdown endsAt={product.saleEndsAt} />
               </p>
             )}
             <button
