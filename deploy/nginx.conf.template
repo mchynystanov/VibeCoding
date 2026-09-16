@@ -1,0 +1,26 @@
+# Nginx reverse-proxy для Paomma Shop.
+#
+# 1. Замените YOUR_DOMAIN на настоящий домен (в двух местах ниже).
+# 2. Скопируйте на сервер: /etc/nginx/sites-available/paomma
+# 3. Включите: sudo ln -s /etc/nginx/sites-available/paomma /etc/nginx/sites-enabled/
+# 4. Проверьте конфиг: sudo nginx -t
+# 5. Перезапустите: sudo systemctl reload nginx
+# 6. Выпустите SSL-сертификат (сам допишет HTTPS-блок и настроит редирект):
+#      sudo certbot --nginx -d YOUR_DOMAIN -d www.YOUR_DOMAIN
+
+server {
+    listen 80;
+    listen [::]:80;
+    server_name YOUR_DOMAIN www.YOUR_DOMAIN;
+
+    location / {
+        proxy_pass http://127.0.0.1:3000;
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+    }
+}

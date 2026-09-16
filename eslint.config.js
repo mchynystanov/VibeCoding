@@ -16,8 +16,8 @@ export default tseslint.config(
     },
   },
   {
-    // Node-скрипты вне src/ (например, scripts/with-secrets.mjs) — не браузерный код.
-    files: ["scripts/**/*.mjs"],
+    // Node-скрипты вне src/ (например, scripts/with-secrets.mjs, deploy/ecosystem.config.cjs) — не браузерный код.
+    files: ["scripts/**/*.mjs", "deploy/**/*.cjs"],
     languageOptions: {
       globals: {
         process: "readonly",
