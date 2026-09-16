@@ -42,3 +42,25 @@ summary:focus-visible {
   height: 1px;
   background-color: theme("colors.paomma.line");
 }
+
+/* Мягкая "дышащая" обводка для карточки спецпредложения (комплект) —
+   привлекает внимание, не мигая резко. */
+@keyframes bundle-offer-pulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 rgba(194, 65, 12, 0.28);
+  }
+  50% {
+    box-shadow: 0 0 0 14px rgba(194, 65, 12, 0);
+  }
+}
+
+.bundle-offer-glow {
+  animation: bundle-offer-pulse 2.8s ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bundle-offer-glow {
+    animation: none;
+  }
+}

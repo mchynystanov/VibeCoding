@@ -2,7 +2,8 @@ import { Hero } from "@/components/Hero";
 import { ProductDetailSection } from "@/components/ProductDetailSection";
 import { LifestyleSection } from "@/components/LifestyleSection";
 import { WhyPaomma } from "@/components/WhyPaomma";
-import { HowToChooseAndBundle } from "@/components/HowToChooseAndBundle";
+import { BundleOffer } from "@/components/BundleOffer";
+import { HowToChoose } from "@/components/HowToChoose";
 import { Quiz } from "@/components/Quiz";
 import { Faq } from "@/components/Faq";
 import { DeliveryAndOrder } from "@/components/DeliveryAndOrder";
@@ -21,6 +22,7 @@ export default function HomePage() {
     <>
       <Hero />
       <WhyPaomma />
+      <BundleOffer />
       {electricPump && (
         <ProductDetailSection
           product={electricPump}
@@ -46,7 +48,7 @@ export default function HomePage() {
           imageSide="left"
         />
       )}
-      <HowToChooseAndBundle />
+      <HowToChoose />
       <Quiz />
       <Faq />
       <DeliveryAndOrder />
