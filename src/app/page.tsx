@@ -22,7 +22,7 @@ export default function HomePage() {
     <>
       <Hero />
       <WhyPaomma />
-      <section className="mx-auto max-w-6xl px-4 py-8">
+      <section className="mx-auto max-w-6xl px-4 py-3">
         <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
           <BundleOffer />
           <HowToChoose />
