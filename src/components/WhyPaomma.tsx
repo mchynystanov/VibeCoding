@@ -21,7 +21,7 @@ const REASONS = [
 export function WhyPaomma() {
   return (
     <section className="bg-paomma-surface">
-      <div className="mx-auto max-w-6xl px-4 py-16">
+      <div className="mx-auto max-w-6xl px-4 py-8">
         <div className="section-eyebrow mb-3">
           <span>Почему мы</span>
         </div>
