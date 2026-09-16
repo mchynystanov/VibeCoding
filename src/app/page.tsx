@@ -53,12 +53,7 @@ export default async function HomePage() {
         />
       )}
       {sterilizer && (
-        <ProductDetailSection
-          product={sterilizer}
-          eyebrow="5 в 1"
-          heading="Стерилизатор"
-          imageSide="left"
-        />
+        <ProductDetailSection product={sterilizer} heading="Стерилизатор 5 в 1" imageSide="left" />
       )}
       <section className="mx-auto max-w-6xl px-4 py-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">

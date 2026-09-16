@@ -18,7 +18,7 @@ export function ProductDetailSection({
   imageSide = "left",
 }: {
   product: Product;
-  eyebrow: string;
+  eyebrow?: string;
   eyebrowClassName?: string;
   heading: string;
   imageSide?: "left" | "right";
@@ -29,9 +29,11 @@ export function ProductDetailSection({
 
   const info = (
     <div>
-      <div className="section-eyebrow mb-3">
-        <span className={eyebrowClassName}>{eyebrow}</span>
-      </div>
+      {eyebrow && (
+        <div className="section-eyebrow mb-3">
+          <span className={eyebrowClassName}>{eyebrow}</span>
+        </div>
+      )}
       <h2 className="mb-2 text-3xl font-light tracking-tight">{heading}</h2>
       <p className="mb-4 text-paomma-inkMuted">{product.shortDescription}</p>
       <dl className="space-y-2 text-sm">
