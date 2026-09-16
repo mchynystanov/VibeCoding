@@ -36,6 +36,7 @@ export default function HomePage() {
         <ProductDetailSection
           product={bionicPump}
           eyebrow="Хит продаж"
+          eyebrowClassName="font-bold text-red-600"
           heading="Свободные руки"
           imageSide="left"
         />
