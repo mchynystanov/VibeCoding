@@ -17,10 +17,13 @@ export function AdminProductForm({ product }: { product: Product }) {
   const [inStock, setInStock] = useState(product.inStock !== false);
   const [salePercent, setSalePercent] = useState(product.salePercent ?? 0);
   const [saleEndsAt, setSaleEndsAt] = useState(toDatetimeLocalValue(product.saleEndsAt));
+  const [randomCountdown, setRandomCountdown] = useState(product.randomCountdown ?? false);
   const [status, setStatus] = useState<"idle" | "saving" | "saved" | "error">("idle");
 
-  const salePrice = getSalePrice(price, salePercent, saleEndsAt || undefined);
-  const saleExpired = salePercent > 0 && !isSaleActive(salePercent, saleEndsAt || undefined);
+  const effectiveEndsAt = randomCountdown ? undefined : saleEndsAt || undefined;
+  const salePrice = getSalePrice(price, salePercent, effectiveEndsAt);
+  const saleExpired =
+    !randomCountdown && salePercent > 0 && !isSaleActive(salePercent, effectiveEndsAt);
 
   async function handleSave() {
     setStatus("saving");
@@ -28,7 +31,14 @@ export function AdminProductForm({ product }: { product: Product }) {
       const res = await fetch("/api/admin/products", {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ id: product.id, price, inStock, salePercent, saleEndsAt }),
+        body: JSON.stringify({
+          id: product.id,
+          price,
+          inStock,
+          salePercent,
+          saleEndsAt,
+          randomCountdown,
+        }),
       });
       setStatus(res.ok ? "saved" : "error");
     } catch {
@@ -67,8 +77,23 @@ export function AdminProductForm({ product }: { product: Product }) {
           type="datetime-local"
           value={saleEndsAt}
           onChange={(e) => setSaleEndsAt(e.target.value)}
-          className="mt-1 block w-full border border-paomma-line px-3 py-2"
+          disabled={randomCountdown}
+          className="mt-1 block w-full border border-paomma-line px-3 py-2 disabled:bg-paomma-surface disabled:text-paomma-inkMuted"
         />
+      </label>
+
+      <label className="mb-4 flex items-start gap-2 text-sm">
+        <input
+          type="checkbox"
+          checked={randomCountdown}
+          onChange={(e) => setRandomCountdown(e.target.checked)}
+          className="mt-1"
+        />
+        <span>
+          Показывать «вечный» таймер вместо реальной даты — у каждого посетителя свой случайный
+          отсчёт 3–5 часов, который зацикливается заново, пока эта галочка включена. Не влияет на
+          саму скидку (она продолжает действовать по проценту выше), только на таймер на сайте.
+        </span>
       </label>
 
       {salePrice !== null && (

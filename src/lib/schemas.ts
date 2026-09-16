@@ -53,6 +53,7 @@ export const productOverrideSchema = z.object({
   salePercent: z.number().min(0).max(90).default(0),
   // Пустая строка = без даты окончания (распродажа идёт, пока не выключат вручную).
   saleEndsAt: z.string().optional(),
+  randomCountdown: z.boolean().default(false),
 });
 
 export type ProductOverrideInput = z.infer<typeof productOverrideSchema>;

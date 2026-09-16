@@ -6,6 +6,7 @@ import { ProductImage } from "@/components/ProductImage";
 import { useCartStore } from "@/lib/cart-store";
 import { getSalePrice } from "@/lib/pricing";
 import { SaleCountdown } from "@/components/SaleCountdown";
+import { RandomSaleCountdown } from "@/components/RandomSaleCountdown";
 
 /**
  * Единый формат "один блок — один товар" (баннер с одной стороны, описание
@@ -26,7 +27,8 @@ export function ProductDetailSection({
   imageSide?: "left" | "right";
 }) {
   const addItem = useCartStore((state) => state.addItem);
-  const salePrice = getSalePrice(product.price, product.salePercent, product.saleEndsAt);
+  const effectiveEndsAt = product.randomCountdown ? undefined : product.saleEndsAt;
+  const salePrice = getSalePrice(product.price, product.salePercent, effectiveEndsAt);
   const effectivePrice = salePrice ?? product.price;
 
   const image = <ProductImage product={product} />;
@@ -74,9 +76,14 @@ export function ProductDetailSection({
           </span>
         )}
       </p>
-      {salePrice !== null && product.saleEndsAt && (
+      {salePrice !== null && product.randomCountdown && (
         <p className="mt-1">
-          <SaleCountdown endsAt={product.saleEndsAt} />
+          <RandomSaleCountdown productId={product.id} />
+        </p>
+      )}
+      {salePrice !== null && !product.randomCountdown && effectiveEndsAt && (
+        <p className="mt-1">
+          <SaleCountdown endsAt={effectiveEndsAt} />
         </p>
       )}
       <div className="mt-4 flex flex-wrap items-center gap-6">

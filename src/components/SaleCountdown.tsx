@@ -1,21 +1,10 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { formatRemainingMs } from "@/lib/countdownFormat";
 
 function getRemainingMs(endsAt: string): number {
   return Math.max(0, new Date(endsAt).getTime() - Date.now());
-}
-
-function formatRemaining(ms: number): string {
-  const totalSeconds = Math.floor(ms / 1000);
-  const days = Math.floor(totalSeconds / 86400);
-  const hours = Math.floor((totalSeconds % 86400) / 3600);
-  const minutes = Math.floor((totalSeconds % 3600) / 60);
-  const seconds = totalSeconds % 60;
-  const pad = (n: number) => String(n).padStart(2, "0");
-  return days > 0
-    ? `${days}д ${pad(hours)}:${pad(minutes)}:${pad(seconds)}`
-    : `${pad(hours)}:${pad(minutes)}:${pad(seconds)}`;
 }
 
 /** Тикающий обратный отсчёт до конца распродажи. Ничего не рендерит, если
@@ -47,7 +36,7 @@ export function SaleCountdown({ endsAt }: { endsAt: string }) {
   return (
     <span className="text-xs font-medium uppercase tracking-wide text-paomma-inkMuted">
       Распродажа закончится через{" "}
-      <span className="font-semibold text-paomma-accent">{formatRemaining(remaining)}</span>
+      <span className="font-semibold text-paomma-accent">{formatRemainingMs(remaining)}</span>
     </span>
   );
 }

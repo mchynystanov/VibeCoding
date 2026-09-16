@@ -12,10 +12,12 @@ import { ProductVideo } from "@/components/ProductVideo";
 import { useCartStore } from "@/lib/cart-store";
 import { getSalePrice } from "@/lib/pricing";
 import { SaleCountdown } from "@/components/SaleCountdown";
+import { RandomSaleCountdown } from "@/components/RandomSaleCountdown";
 
 export function ProductDetailClient({ product, reviews }: { product: Product; reviews: Review[] }) {
   const addItem = useCartStore((state) => state.addItem);
-  const salePrice = getSalePrice(product.price, product.salePercent, product.saleEndsAt);
+  const effectiveEndsAt = product.randomCountdown ? undefined : product.saleEndsAt;
+  const salePrice = getSalePrice(product.price, product.salePercent, effectiveEndsAt);
   const effectivePrice = salePrice ?? product.price;
 
   if (product.videoId) {
@@ -63,9 +65,14 @@ export function ProductDetailClient({ product, reviews }: { product: Product; re
               </span>
             )}
           </p>
-          {salePrice !== null && product.saleEndsAt && (
+          {salePrice !== null && product.randomCountdown && (
             <p className="mt-1">
-              <SaleCountdown endsAt={product.saleEndsAt} />
+              <RandomSaleCountdown productId={product.id} />
+            </p>
+          )}
+          {salePrice !== null && !product.randomCountdown && effectiveEndsAt && (
+            <p className="mt-1">
+              <SaleCountdown endsAt={effectiveEndsAt} />
             </p>
           )}
           <button

@@ -9,6 +9,7 @@ type Override = {
   inStock?: boolean;
   salePercent?: number;
   saleEndsAt?: string;
+  randomCountdown?: boolean;
 };
 type Overrides = Record<string, Override>;
 
@@ -31,6 +32,7 @@ function applyOverride(product: Product, overrides: Overrides): Product {
     inStock: o?.inStock ?? product.inStock ?? true,
     salePercent: o?.salePercent ?? product.salePercent ?? 0,
     saleEndsAt: "saleEndsAt" in (o ?? {}) ? o?.saleEndsAt : product.saleEndsAt,
+    randomCountdown: o?.randomCountdown ?? product.randomCountdown ?? false,
   };
 }
 

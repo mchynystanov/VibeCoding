@@ -8,6 +8,7 @@ import { getSalePrice } from "@/lib/pricing";
 import { useCartStore } from "@/lib/cart-store";
 import { trackEvent } from "@/lib/analytics";
 import { SaleCountdown } from "@/components/SaleCountdown";
+import { RandomSaleCountdown } from "@/components/RandomSaleCountdown";
 
 const STEPS: (keyof QuizAnswers)[] = ["need", "frequency", "handsFree"];
 
@@ -55,8 +56,9 @@ export function Quiz() {
   }, [isDone]);
 
   if (isDone) {
+    const effectiveEndsAt = product && !product.randomCountdown ? product.saleEndsAt : undefined;
     const salePrice = product
-      ? getSalePrice(product.price, product.salePercent, product.saleEndsAt)
+      ? getSalePrice(product.price, product.salePercent, effectiveEndsAt)
       : null;
     const effectivePrice = product ? (salePrice ?? product.price) : 0;
 
@@ -81,9 +83,14 @@ export function Quiz() {
                 {product.price.toLocaleString("ru-RU")} Сом
               </p>
             )}
-            {salePrice !== null && product.saleEndsAt && (
+            {salePrice !== null && product.randomCountdown && (
               <p className="mt-1">
-                <SaleCountdown endsAt={product.saleEndsAt} />
+                <RandomSaleCountdown productId={product.id} />
+              </p>
+            )}
+            {salePrice !== null && !product.randomCountdown && effectiveEndsAt && (
+              <p className="mt-1">
+                <SaleCountdown endsAt={effectiveEndsAt} />
               </p>
             )}
             <button
