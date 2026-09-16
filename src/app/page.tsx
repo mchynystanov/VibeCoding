@@ -37,7 +37,6 @@ export default async function HomePage() {
       {electricPump && (
         <ProductDetailSection
           product={electricPump}
-          eyebrow="Свобода быть рядом"
           heading="Беспроводной молокоотсос 3 в 1"
           imageSide="left"
         />
