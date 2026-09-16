@@ -38,10 +38,7 @@ export function Quiz() {
 
     return (
       <div>
-        <div className="section-eyebrow mb-3">
-          <span>Подборщик</span>
-        </div>
-        <h2 className="mb-6 text-2xl font-light tracking-tight">Подберите свой товар</h2>
+        <h2 className="mb-4 text-2xl font-light tracking-tight">Подберите свой товар</h2>
         {product && (
           <div className="mx-auto max-w-sm border border-paomma-line p-8 text-center">
             <p className="text-sm text-paomma-inkMuted">Вам подойдёт:</p>
@@ -75,10 +72,7 @@ export function Quiz() {
 
   return (
     <div>
-      <div className="section-eyebrow mb-3">
-        <span>Подборщик</span>
-      </div>
-      <h2 className="mb-6 text-2xl font-light tracking-tight">Подберите свой товар</h2>
+      <h2 className="mb-4 text-2xl font-light tracking-tight">Подберите свой товар</h2>
       <div className="border border-paomma-line p-6">
         <p className="mb-4 text-xs uppercase tracking-wide text-paomma-inkMuted">
           Вопрос {currentStepIndex + 1} из {STEPS.length}

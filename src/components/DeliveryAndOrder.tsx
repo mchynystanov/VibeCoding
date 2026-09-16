@@ -10,12 +10,11 @@ const ZONES = ["Бишкек", "Чуйская область", "Регионы"
 
 export function DeliveryAndOrder() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
-      <div className="section-eyebrow mb-3">
-        <span>Доставка</span>
-      </div>
-      <h2 className="mb-8 text-3xl font-light tracking-tight">Доставка и как заказать</h2>
-      <ol className="mb-10 space-y-2 text-sm">
+    <section className="mx-auto max-w-6xl px-4 py-8">
+      <h2 className="mb-4 text-2xl font-light tracking-tight sm:text-3xl">
+        Доставка и как заказать
+      </h2>
+      <ol className="mb-6 space-y-2 text-sm">
         {STEPS.map((step, i) => (
           <li key={step} className="flex gap-2">
             <span className="font-medium">{i + 1}.</span>

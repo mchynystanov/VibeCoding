@@ -38,10 +38,7 @@ const FAQ_ITEMS = [
 export function Faq() {
   return (
     <div>
-      <div className="section-eyebrow mb-3">
-        <span>Вопросы</span>
-      </div>
-      <h2 className="mb-6 text-2xl font-light tracking-tight">Частые вопросы</h2>
+      <h2 className="mb-4 text-2xl font-light tracking-tight">Частые вопросы</h2>
       <div className="divide-y divide-paomma-line border-t border-paomma-line">
         {FAQ_ITEMS.map((item) => (
           <details key={item.q} className="py-3">
