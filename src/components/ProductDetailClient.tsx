@@ -49,7 +49,7 @@ export function ProductDetailClient({ product }: { product: Product }) {
           </p>
           <button
             onClick={() => addItem(product.id)}
-            className="mt-6 bg-paomma-accent px-8 py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
+            className="mt-6 rounded-full bg-paomma-accent px-8 py-3 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
           >
             В корзину
           </button>

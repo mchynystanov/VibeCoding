@@ -54,13 +54,13 @@ export default function HomePage() {
           imageSide="left"
         />
       )}
-      <DeliveryAndOrder />
       <section className="mx-auto max-w-6xl px-4 py-8">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2">
           <Quiz />
           <Faq />
         </div>
       </section>
+      <DeliveryAndOrder />
       <Footer />
     </>
   );

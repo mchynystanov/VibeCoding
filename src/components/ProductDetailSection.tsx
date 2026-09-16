@@ -51,7 +51,7 @@ export function ProductDetailSection({
       <div className="mt-4 flex flex-wrap items-center gap-6">
         <button
           onClick={() => addItem(product.id)}
-          className="bg-paomma-accent px-6 py-2 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
+          className="rounded-full bg-paomma-accent px-6 py-2 text-xs uppercase tracking-wide text-white transition hover:bg-paomma-accentDark"
         >
           В корзину
         </button>
