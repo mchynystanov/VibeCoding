@@ -52,7 +52,7 @@ export function ProductDetailSection({
           </span>
         ) : (
           <span className="text-xs font-medium uppercase tracking-wide text-green-600">
-            В наличии
+            Есть в наличии
           </span>
         )}
       </p>
