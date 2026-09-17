@@ -51,24 +51,38 @@ function buildMessage(order: OrderNotification): string {
 
 export async function sendTelegramMessage(order: OrderNotification): Promise<void> {
   const token = process.env.TELEGRAM_BOT_TOKEN;
-  const chatId = process.env.TELEGRAM_CHAT_ID;
+  const chatIdsRaw = process.env.TELEGRAM_CHAT_ID;
 
-  if (!token || !chatId) {
+  if (!token || !chatIdsRaw) {
     throw new Error("TELEGRAM_BOT_TOKEN or TELEGRAM_CHAT_ID is not configured");
   }
 
-  const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      chat_id: chatId,
-      text: buildMessage(order),
-      parse_mode: "HTML",
-    }),
-  });
+  // TELEGRAM_CHAT_ID может содержать несколько id через запятую — заказ
+  // уходит всем сразу (владельцу, менеджеру и т.п.).
+  const chatIds = chatIdsRaw
+    .split(",")
+    .map((id) => id.trim())
+    .filter(Boolean);
+  const text = buildMessage(order);
 
-  if (!res.ok) {
-    const body = await res.text().catch(() => "");
-    throw new Error(`Telegram API error: ${res.status} ${body}`);
+  const results = await Promise.allSettled(
+    chatIds.map(async (chatId) => {
+      const res = await fetch(`https://api.telegram.org/bot${token}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ chat_id: chatId, text, parse_mode: "HTML" }),
+      });
+
+      if (!res.ok) {
+        const body = await res.text().catch(() => "");
+        throw new Error(`Telegram API error for chat ${chatId}: ${res.status} ${body}`);
+      }
+    }),
+  );
+
+  const allFailed = results.every((result) => result.status === "rejected");
+  if (allFailed) {
+    const reasons = results.map((result) => (result as PromiseRejectedResult).reason).join("; ");
+    throw new Error(`Telegram delivery failed for all recipients: ${reasons}`);
   }
 }
