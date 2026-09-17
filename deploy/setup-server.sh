@@ -10,16 +10,36 @@
 
 set -euo pipefail
 
+# Без этого apt может остановиться на вопросе про конфликт конфигурации
+# (например sshd_config) и ждать ответа, которого некому дать в
+# автоматическом запуске — держим текущие локальные конфиги как есть.
+export DEBIAN_FRONTEND=noninteractive
+APT_OPTS=(-o Dpkg::Options::="--force-confdef" -o Dpkg::Options::="--force-confold")
+
 echo "== Обновление пакетов =="
-sudo apt-get update
-sudo apt-get upgrade -y
+sudo -E apt-get update
+sudo -E apt-get "${APT_OPTS[@]}" upgrade -y
+
+echo "== Файл подкачки (swap) =="
+# На серверах с 1 ГБ RAM сборка Next.js (npm run build) может не хватить
+# памяти и упасть. Добавляем 2 ГБ swap — дешёвая страховка, почти не влияет
+# на обычную работу сайта, но не даёт сборке падать при пиковой нагрузке.
+if [ ! -f /swapfile ]; then
+  sudo fallocate -l 2G /swapfile
+  sudo chmod 600 /swapfile
+  sudo mkswap /swapfile
+  sudo swapon /swapfile
+  echo '/swapfile none swap sw 0 0' | sudo tee -a /etc/fstab
+else
+  echo "Swap-файл уже существует, пропускаю."
+fi
 
 echo "== Node.js 20 LTS =="
 curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
-sudo apt-get install -y nodejs
+sudo -E apt-get install -y nodejs
 
 echo "== git, nginx, certbot =="
-sudo apt-get install -y git nginx certbot python3-certbot-nginx
+sudo -E apt-get "${APT_OPTS[@]}" install -y git nginx certbot python3-certbot-nginx
 
 echo "== age (шифрование, на котором работает sops) =="
 AGE_VERSION="v1.2.1"
