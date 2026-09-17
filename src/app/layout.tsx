@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { FloatingContactButton } from "@/components/FloatingContactButton";
+import { FloatingCartButton } from "@/components/FloatingCartButton";
 import { CartDrawer } from "@/components/CartDrawer";
 import { OrderForm } from "@/components/OrderForm";
 
@@ -30,6 +31,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         {children}
         <CartDrawer />
         <OrderForm />
+        <FloatingCartButton />
         <FloatingContactButton />
       </body>
     </html>
