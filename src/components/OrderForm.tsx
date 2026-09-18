@@ -11,6 +11,13 @@ import { trackEvent } from "@/lib/analytics";
 type SubmitState = "form" | "submitting" | "success" | "error";
 type CityMode = (typeof CITY_PRESETS)[number] | "other";
 
+const PHONE_COUNTRY_CODES = [
+  { code: "+996", label: "+996 Кыргызстан" },
+  { code: "+7", label: "+7 Казахстан / Россия" },
+  { code: "+998", label: "+998 Узбекистан" },
+  { code: "+992", label: "+992 Таджикистан" },
+] as const;
+
 const WHATSAPP_FALLBACK = process.env.NEXT_PUBLIC_WHATSAPP_FALLBACK;
 const TELEGRAM_FALLBACK = process.env.NEXT_PUBLIC_TELEGRAM_FALLBACK;
 
@@ -24,6 +31,8 @@ export function OrderForm() {
   const [submitState, setSubmitState] = useState<SubmitState>("form");
   const [orderId, setOrderId] = useState<string | null>(null);
   const [cityMode, setCityMode] = useState<CityMode>("Бишкек");
+  const [phoneCode, setPhoneCode] = useState<string>(PHONE_COUNTRY_CODES[0].code);
+  const [phoneLocal, setPhoneLocal] = useState("");
 
   const {
     register,
@@ -55,6 +64,12 @@ export function OrderForm() {
     setValue("total", totals.total);
   }, [items, totals.discount, totals.total, setValue]);
 
+  // Телефон вводится как код страны (выбор, +996 по умолчанию) + локальный
+  // номер — собираем их в одну строку для схемы/API.
+  useEffect(() => {
+    setValue("customer.phone", phoneLocal ? `${phoneCode}${phoneLocal}` : "");
+  }, [phoneCode, phoneLocal, setValue]);
+
   if (!isOrderFormOpen) return null;
 
   function handleClose() {
@@ -63,6 +78,8 @@ export function OrderForm() {
       reset();
       setSubmitState("form");
       setOrderId(null);
+      setPhoneCode(PHONE_COUNTRY_CODES[0].code);
+      setPhoneLocal("");
     }
   }
 
@@ -187,12 +204,28 @@ export function OrderForm() {
               <label htmlFor="order-phone" className="mb-1 block text-sm font-medium">
                 Телефон
               </label>
-              <input
-                id="order-phone"
-                {...register("customer.phone")}
-                className="w-full border border-paomma-line bg-paomma-bg p-2 text-sm"
-                placeholder="+996 700 123 456"
-              />
+              <div className="flex gap-2">
+                <select
+                  aria-label="Код страны"
+                  value={phoneCode}
+                  onChange={(e) => setPhoneCode(e.target.value)}
+                  className="border border-paomma-line bg-paomma-bg p-2 text-sm"
+                >
+                  {PHONE_COUNTRY_CODES.map((option) => (
+                    <option key={option.code} value={option.code}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
+                <input
+                  id="order-phone"
+                  value={phoneLocal}
+                  onChange={(e) => setPhoneLocal(e.target.value.replace(/[^\d]/g, ""))}
+                  className="w-full min-w-0 flex-1 border border-paomma-line bg-paomma-bg p-2 text-sm"
+                  placeholder="700 123 456"
+                  inputMode="numeric"
+                />
+              </div>
               {errors.customer?.phone && (
                 <p className="mt-1 text-xs text-red-600">{errors.customer.phone.message}</p>
               )}
