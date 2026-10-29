@@ -1,6 +1,6 @@
 import type { CartItem } from "@/lib/pricing";
 
-type OrderNotification = {
+export type OrderNotification = {
   orderId: string;
   name: string;
   phone: string;
@@ -111,7 +111,14 @@ export async function sendTelegramMessage(order: OrderNotification): Promise<voi
 
   const allFailed = results.every((result) => result.status === "rejected");
   if (allFailed) {
-    const reasons = results.map((result) => (result as PromiseRejectedResult).reason).join("; ");
+    const reasons = results
+      .map((result) => {
+        const reason = (result as PromiseRejectedResult).reason;
+        const cause =
+          reason instanceof Error && reason.cause ? ` (cause: ${String(reason.cause)})` : "";
+        return `${reason}${cause}`;
+      })
+      .join("; ");
     throw new Error(`Telegram delivery failed for all recipients: ${reasons}`);
   }
 }

@@ -3,6 +3,7 @@ import { orderSchema } from "@/lib/schemas";
 import { isRateLimited } from "@/lib/rateLimit";
 import { sendTelegramMessage } from "@/lib/telegram";
 import { appendOrderToSheet } from "@/lib/googleSheets";
+import { sendWhatsAppFallback } from "@/lib/whatsapp";
 
 function getClientIp(req: Request): string {
   const forwardedFor = req.headers.get("x-forwarded-for");
@@ -40,31 +41,22 @@ export async function POST(req: Request) {
 
   const orderId = `PM-${Date.now()}`;
 
+  const notification = {
+    orderId,
+    name: data.customer.name,
+    phone: data.customer.phone,
+    city: data.customer.city,
+    deliveryMethod: data.deliveryMethod,
+    address: data.customer.address,
+    items: data.items,
+    discount: data.discount,
+    total: data.total,
+    comment: data.comment,
+  };
+
   const [telegramResult, sheetsResult] = await Promise.allSettled([
-    sendTelegramMessage({
-      orderId,
-      name: data.customer.name,
-      phone: data.customer.phone,
-      city: data.customer.city,
-      deliveryMethod: data.deliveryMethod,
-      address: data.customer.address,
-      items: data.items,
-      discount: data.discount,
-      total: data.total,
-      comment: data.comment,
-    }),
-    appendOrderToSheet({
-      orderId,
-      name: data.customer.name,
-      phone: data.customer.phone,
-      city: data.customer.city,
-      deliveryMethod: data.deliveryMethod,
-      address: data.customer.address,
-      items: data.items,
-      discount: data.discount,
-      total: data.total,
-      comment: data.comment,
-    }),
+    sendTelegramMessage(notification),
+    appendOrderToSheet(notification),
   ]);
 
   if (telegramResult.status === "rejected") {
@@ -79,7 +71,15 @@ export async function POST(req: Request) {
   const anySucceeded = telegramResult.status === "fulfilled" || sheetsResult.status === "fulfilled";
 
   if (!anySucceeded) {
-    return NextResponse.json({ ok: false, error: "delivery_failed" }, { status: 502 });
+    // Третий, резервный канал: заказ молча уходит владельцу в WhatsApp, а клиент
+    // ошибки не видит. Ошибку показываем только если и он не сработал.
+    try {
+      await sendWhatsAppFallback(notification);
+      return NextResponse.json({ ok: true, orderId });
+    } catch (error) {
+      console.error(`[order ${orderId}] WhatsApp fallback failed:`, error);
+      return NextResponse.json({ ok: false, error: "delivery_failed" }, { status: 502 });
+    }
   }
 
   return NextResponse.json({ ok: true, orderId });

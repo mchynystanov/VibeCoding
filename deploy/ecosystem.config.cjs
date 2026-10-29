@@ -17,6 +17,9 @@ module.exports = {
       env: {
         NODE_ENV: "production",
         PORT: "3000",
+        // Node 20 fetch на этом VPS падает с "fetch failed" (AggregateError):
+        // автовыбор IPv4/IPv6 ждёт всего 250 мс, а IPv6 недоступен.
+        NODE_OPTIONS: "--no-network-family-autoselection",
       },
       autorestart: true,
       max_restarts: 10,
